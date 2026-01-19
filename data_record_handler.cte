@@ -1,0 +1,2442 @@
+// Selection of possible return values  :
+// ----------------------------------------- 
+// Return values below 0x8000 are interpreted by the controller as the size of the data record. 
+// If the return value is above 0x7FFF, the control interprets the return value as an error message.
+// NO_ERROR                        : 0x0000
+// ERROR_RECORD_NOT_PERMITTED      : 0x80B0 // The data records 0, 1 and above 240 are not permitted for profibus 
+// ERROR_LENGTH_INVALID            : 0x80B1 // The length specified in the RECORD parameter is incorrect
+
+//=================================================================================
+// DataSet is 128: Begin
+
+
+
+WRREC_HANDLER ( Unit, 128)
+	// WRREC in PLC: transfer the record data to device PLC -> device
+	// Selection of possible return values :
+	// ----------------------------------------- 
+	// NO_ERROR : 0x0000
+	// ERROR_RECORD_NOT_PERMITTED : 0x80B0 // The data records 0, 1 and above 240 are not permitted for profibus
+	// ERROR_LENGTH_INVALID : 0x80B1 // The length specified in the RECORD parameter is incorrect
+
+	// integer _DR_number Number of the data record just written
+	// integer _DR_length Length of the data set just written
+	// byte[] _DR_data Data of the data set just written
+
+	// Return values of component for linking
+	// -----------------------------------------
+	// integer _DR_result Return value of the component to the linkage
+	//DataSet = 128;
+
+	integer i;
+
+//	if (DataRecordNumber < 0)
+//	{
+//		Result = 0x80B0;
+//		_DR_result = 0x80B0;
+//		return;
+//	}
+
+	if (_DR_length > 54)
+	{
+		Result = 0x80B1;
+		_DR_result = 0x80B1;
+	}
+	else 
+	{
+		for (i = 0; i < 54; i++) 
+		{
+			if (i < _DR_length)
+			{
+			  @TempParameters128[i] = _DR_data[i];  	//store _DR_data in States memory	
+			}
+			else
+			{
+				@TempParameters128[i] = 0;
+			}
+		}
+		//data available to OutDR128 & configuration parameters
+		OutDR128.AcyclicData001 = TempParameters128[0];//Header
+		OutDR128.AcyclicData002 = TempParameters128[1];
+		OutDR128.AcyclicData003 = TempParameters128[2];
+		OutDR128.AcyclicData004 = TempParameters128[3];
+		OutDR128.AcyclicData005 = TempParameters128[4];
+		OutDR128.AcyclicData006 = TempParameters128[5];
+
+		OutDR128.AcyclicData007 = TempParameters128[6];//PortNumber1
+		OutDR128.AcyclicData008 = TempParameters128[7];//PortConfiguration
+		OutDR128.AcyclicData009 = TempParameters128[8];//Length of input AcyclicData0 with PQI
+		OutDR128.AcyclicData010 = TempParameters128[9];//Length of output AcyclicData0
+		OutDR128.AcyclicData011 = TempParameters128[10];//Inspection severity/AcyclicData0 storage
+		OutDR128.AcyclicData012 = TempParameters128[11];//Vendor ID byte1
+		OutDR128.AcyclicData013 = TempParameters128[12];//Vendor ID byte2
+		OutDR128.AcyclicData014 = TempParameters128[13];//Device ID
+		OutDR128.AcyclicData015 = TempParameters128[14];//Device ID byte2
+		OutDR128.AcyclicData016 = TempParameters128[15];//Device ID byte3
+		OutDR128.AcyclicData017 = TempParameters128[16];//Device ID byte4
+		OutDR128.AcyclicData018 = TempParameters128[17];//Port cycle time
+
+		OutDR128.AcyclicData019 = TempParameters128[18];//PortNumber2
+		OutDR128.AcyclicData020 = TempParameters128[19];//PortConfiguration
+		OutDR128.AcyclicData021 = TempParameters128[20];//Length of input AcyclicData0 with PQI
+		OutDR128.AcyclicData022 = TempParameters128[21];//Length of output AcyclicData0
+		OutDR128.AcyclicData023 = TempParameters128[22];//Inspection severity/AcyclicData0 storage
+		OutDR128.AcyclicData024 = TempParameters128[23];//Vendor ID byte1
+		OutDR128.AcyclicData025 = TempParameters128[24];//Vendor ID byte2
+		OutDR128.AcyclicData026 = TempParameters128[25];//Device ID
+		OutDR128.AcyclicData027 = TempParameters128[26];//Device ID byte2
+		OutDR128.AcyclicData028 = TempParameters128[27];//Device ID byte3
+		OutDR128.AcyclicData029 = TempParameters128[28];//Device ID byte4
+		OutDR128.AcyclicData030 = TempParameters128[29];//Port cycle time
+
+		OutDR128.AcyclicData031 = TempParameters128[30];//PortNumber3
+		OutDR128.AcyclicData032 = TempParameters128[31];//PortConfiguration
+		OutDR128.AcyclicData033 = TempParameters128[32];//Length of input AcyclicData0 with PQI
+		OutDR128.AcyclicData034 = TempParameters128[33];//Length of output AcyclicData0
+		OutDR128.AcyclicData035 = TempParameters128[34];//Inspection severity/AcyclicData0 storage
+		OutDR128.AcyclicData036 = TempParameters128[35];//Vendor ID byte1
+		OutDR128.AcyclicData037 = TempParameters128[36];//Vendor ID byte2
+		OutDR128.AcyclicData038 = TempParameters128[37];//Device ID
+		OutDR128.AcyclicData039 = TempParameters128[38];//Device ID byte2
+		OutDR128.AcyclicData040 = TempParameters128[39];//Device ID byte3
+		OutDR128.AcyclicData041 = TempParameters128[40];//Device ID byte4
+		OutDR128.AcyclicData042 = TempParameters128[41];//Port cycle time
+
+		OutDR128.AcyclicData043 = TempParameters128[42];//PortNumber4
+		OutDR128.AcyclicData044 = TempParameters128[43];//PortConfiguration
+		OutDR128.AcyclicData045 = TempParameters128[44];//Length of input AcyclicData0 with PQI
+		OutDR128.AcyclicData046 = TempParameters128[45];//Length of output AcyclicData0
+		OutDR128.AcyclicData047 = TempParameters128[46];//Inspection severity/AcyclicData0 storage
+		OutDR128.AcyclicData048 = TempParameters128[47];//Vendor ID byte1
+		OutDR128.AcyclicData049 = TempParameters128[48];//Vendor ID byte2
+		OutDR128.AcyclicData050 = TempParameters128[49];//Device ID
+		OutDR128.AcyclicData051 = TempParameters128[50];//Device ID byte2
+		OutDR128.AcyclicData052 = TempParameters128[51];//Device ID byte3
+		OutDR128.AcyclicData053 = TempParameters128[52];//Device ID byte4
+		OutDR128.AcyclicData054 = TempParameters128[53];//Port cycle time
+
+		Result = _DR_length;
+		_DR_result = _DR_length;
+	}
+
+	@ZCounter = ZCounter + 1;
+	Counter  = ZCounter;
+	Length = _DR_length;
+
+END_HANDLER
+
+RDREC_HANDLER ( Unit, 128)
+	// RDREC in PLC: reads data record device -> PLC
+	// Selection of possible return values :
+	// ----------------------------------------- 
+	// NO_ERROR : 0x0000
+	// ERROR_RECORD_NOT_PERMITTED : 0x80B0 // The data records 0, 1 and above 240 are not permitted for profibus 
+	// ERROR_LENGTH_INVALID : 0x80B1 // The length specified in the RECORD parameter is incorrect
+
+	// Available variables from coupling to component
+	// ------------------------------------------------
+	// integer _DR_number Data record number of the data record just read
+	// integer _DR_length Requested length of the data set just read
+
+	// Return values from component for coupling
+	// -----------------------------------------
+	// byte[] _DR_data Data of the data set just read
+	// integer _DR_result Return value of the component to the linkage
+
+
+	//DataSet = 128;
+	 
+	integer i;
+	integer Vendor_ID_Port1; integer Vendor_ID_Port2; integer Vendor_ID_Port3; integer Vendor_ID_Port4;
+	integer Product_ID_Port1; integer Product_ID_Port2; integer Product_ID_Port3; integer Product_ID_Port4;
+
+	byte VendorID_Byte11; byte VendorID_Byte12;
+	byte VendorID_Byte21; byte VendorID_Byte22;
+	byte VendorID_Byte31; byte VendorID_Byte32;
+	byte VendorID_Byte41; byte VendorID_Byte42;
+
+	byte Product_ID_Byte11; byte Product_ID_Byte12; byte Product_ID_Byte13; byte Product_ID_Byte14;
+	byte Product_ID_Byte21; byte Product_ID_Byte22; byte Product_ID_Byte23; byte Product_ID_Byte24;
+	byte Product_ID_Byte31; byte Product_ID_Byte32; byte Product_ID_Byte33; byte Product_ID_Byte34;
+	byte Product_ID_Byte41; byte Product_ID_Byte42; byte Product_ID_Byte43; byte Product_ID_Byte44;
+
+	bool Marker = False;
+
+//	if (DataRecordNumber < 0) 
+//	{
+//		_DR_result = 0x80B0; // ERROR_RECORD_NOT_PERMITTED
+//		Result =  0x80B0;	
+//		return;
+//	}
+
+	Length = _DR_length;
+	@ZCounter = ZCounter + 1;
+	Counter = ZCounter;
+
+	if (_DR_length > 54)
+	{
+		_DR_result = 0x80B1; // ERROR_LENGTH_INVALID
+		Result =  0x80B1;
+	}
+	else
+	{ 
+	  //reset _DR_data begin
+		for (i = 0; i < _DR_length; i++)
+		{
+			_DR_data[i] = 0;
+		}  //reset _DR_data end
+
+
+		//setup header fixed preset data
+		_DR_data[0] = TempParameters128[0];//minor or major version
+		_DR_data[1] = TempParameters128[1];//size of data
+		_DR_data[2] = TempParameters128[2];//block version high
+		_DR_data[3] = TempParameters128[3];//block version low
+		_DR_data[5] = TempParameters128[5];//number of ports
+		
+		//setup header modifiable data
+		_DR_data[4] = TempParameters128[4];
+
+		@TempParameters128[8]  = _trunc2byte(PortIn_1.ProcessData142);
+		@TempParameters128[20] = _trunc2byte(PortIn_2.ProcessData142);
+		@TempParameters128[32] = _trunc2byte(PortIn_3.ProcessData142);
+		@TempParameters128[44] = _trunc2byte(PortIn_4.ProcessData142);
+
+		@TempParameters128[9]  = _trunc2byte(PortIn_1.ProcessData143);
+		@TempParameters128[21] = _trunc2byte(PortIn_2.ProcessData143);
+		@TempParameters128[33] = _trunc2byte(PortIn_3.ProcessData143);
+		@TempParameters128[45] = _trunc2byte(PortIn_4.ProcessData143);
+
+		//read VendorID & ProductID from external device at Ports begin
+		//read VendorID from device connected at Port1
+		//extract data from VendorID in Port1
+		VendorID_Byte11 = _trunc2byte(PortIn_1.AcyclicData008);
+		VendorID_Byte12 = _trunc2byte(PortIn_1.AcyclicData009);
+		@TempParameters128[11] = VendorID_Byte11;
+		@TempParameters128[12] = VendorID_Byte12;
+		//read ProductID from device connected at Port1
+		//Product_ID_Byte11 = _trunc2byte(PortIn_1.AcyclicData003);
+		Product_ID_Byte11 = 0;
+		Product_ID_Byte12 = _trunc2byte(PortIn_1.AcyclicData010);
+		Product_ID_Byte13 = _trunc2byte(PortIn_1.AcyclicData011);
+		Product_ID_Byte14 = _trunc2byte(PortIn_1.AcyclicData012);
+		@TempParameters128[13] = Product_ID_Byte11;
+		@TempParameters128[14] = Product_ID_Byte12;
+		@TempParameters128[15] = Product_ID_Byte13;
+		@TempParameters128[16] = Product_ID_Byte14;
+
+		//read VendorID from device connected at Port2
+		//extract data from VendorID in Port2
+		VendorID_Byte21 = _trunc2byte(PortIn_2.AcyclicData008);
+		VendorID_Byte22 = _trunc2byte(PortIn_2.AcyclicData009);
+		@TempParameters128[23] = VendorID_Byte21;
+		@TempParameters128[24] = VendorID_Byte22;
+		//read ProductID from device connected at Port2
+		//Product_ID_Byte21 = _trunc2byte(PortIn_2.AcyclicData003);
+		Product_ID_Byte21 = 0;
+		Product_ID_Byte22 = _trunc2byte(PortIn_2.AcyclicData010);
+		Product_ID_Byte23 = _trunc2byte(PortIn_2.AcyclicData011);
+		Product_ID_Byte24 = _trunc2byte(PortIn_2.AcyclicData012);
+		@TempParameters128[25] = Product_ID_Byte21;
+		@TempParameters128[26] = Product_ID_Byte22;
+		@TempParameters128[27] = Product_ID_Byte23;
+		@TempParameters128[28] = Product_ID_Byte24;
+
+		//read VendorID from device connected at Port3
+		//extract data from VendorID in Port3
+		VendorID_Byte31 = _trunc2byte(PortIn_3.AcyclicData008);
+		VendorID_Byte32 = _trunc2byte(PortIn_3.AcyclicData009);
+		@TempParameters128[35] = VendorID_Byte31;
+		@TempParameters128[36] = VendorID_Byte32;
+		//read ProductID from device connected at Port3
+		//extract data from ProductID in Port3
+		//Product_ID_Byte31 = _trunc2byte(PortIn_3.AcyclicData003);
+		Product_ID_Byte31 = 0;
+		Product_ID_Byte32 = _trunc2byte(PortIn_3.AcyclicData010);
+		Product_ID_Byte33 = _trunc2byte(PortIn_3.AcyclicData011);
+		Product_ID_Byte34 = _trunc2byte(PortIn_3.AcyclicData012);
+		@TempParameters128[37] = Product_ID_Byte31;
+		@TempParameters128[38] = Product_ID_Byte32;
+		@TempParameters128[39] = Product_ID_Byte33;
+		@TempParameters128[40] = Product_ID_Byte34;
+
+		//read VendorID from device connected at Port4
+		//extract data from VendorID in Port4
+		VendorID_Byte41 = _trunc2byte(PortIn_4.AcyclicData008);
+		VendorID_Byte42 = _trunc2byte(PortIn_4.AcyclicData009);
+		@TempParameters128[47] = VendorID_Byte41;
+		@TempParameters128[48] = VendorID_Byte42;
+		//read ProductID from device connected at Port4
+		//extract data from ProductID in Port4
+		//Product_ID_Byte41 = _trunc2byte(PortIn_4.AcyclicData003);
+		Product_ID_Byte41 = 0;
+		Product_ID_Byte42 = _trunc2byte(PortIn_4.AcyclicData010);
+		Product_ID_Byte43 = _trunc2byte(PortIn_4.AcyclicData011);
+		Product_ID_Byte44 = _trunc2byte(PortIn_4.AcyclicData012);
+		@TempParameters128[49] = Product_ID_Byte41;
+		@TempParameters128[50] = Product_ID_Byte42;
+		@TempParameters128[51] = Product_ID_Byte43;
+		@TempParameters128[52] = Product_ID_Byte44;
+		//read VendorID & ProductID from external device at Ports end
+
+		for (i = 0; i < _DR_length; i++)
+		{
+			if (i < 54)
+			{
+				_DR_data[i] = TempParameters128[i];
+			}
+		}//end reading existing parameters
+		//end write _DR_data
+	 
+		_DR_result = _DR_length;
+		Result = _DR_length;
+	 
+	}
+
+END_HANDLER
+
+//=================================================================================
+// DataSet is 128: End
+//=================================================================================
+//=================================================================================
+// DataSet is 227: Begin
+WRREC_HANDLER ( Unit, 227)
+
+	// WRREC in PLC: transfer the record data to device PLC -> master device
+	// Selection of possible return values :
+	// ----------------------------------------- 
+	// NO_ERROR : 0x0000
+	// ERROR_RECORD_NOT_PERMITTED : 0x80B0 // The data records 0, 1 and above 240 are not permitted for profibus
+	// ERROR_LENGTH_INVALID : 0x80B1 // The length specified in the RECORD parameter is incorrect
+
+	// integer _DR_number Number of the data record just written
+	// integer _DR_length Length of the data set just written
+	// byte[] _DR_data Data of the data set just written
+
+	// Return values of component for linking
+	// -----------------------------------------
+	// integer _DR_result Return value of the component to the linkage
+
+	//_write("{0} says: WRREC begin time {1}\n",_NAME,_Time);
+	//Device DataSet227 WRREC begin
+
+	//DataSet = 227;
+
+	int i = 0;
+	// _DR_data coming from PLC begin
+///	if (DataRecordNumber < 0)
+//	{
+//	  Result = 0x80B0;
+//	  _DR_result = 0x80B0;
+//	  return;
+//	}
+
+	if (_DR_length > 240)
+	{
+	  Result = 0x80B1;
+	  _DR_result = 0x80B1;
+	}
+	else 
+	{
+
+		for (i = 0; i < _DR_length; i++) 
+		{
+			@TempParameters227[i] = _DR_data[i];  	//initialize States variable	
+		}
+	// _DR_data coming from PLC end
+
+		if(_DR_data[4] == 3)
+		{
+			if(_DR_data[1] != 0)
+			{//_DR_data[1]!=0 begin
+				switch (_DR_data[1])
+				{
+					case 1: //Port 1
+						PortOut_1.AcyclicData001 = _DR_data[0];//
+						PortOut_1.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_1.AcyclicData003 = _DR_data[2];//
+						PortOut_1.AcyclicData004 = _DR_data[3];//
+						PortOut_1.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_1.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_1.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_1.AcyclicData008 = _DR_data[7];//SubIndex
+					break;
+					case 2: //Port 2
+						PortOut_2.AcyclicData001 = _DR_data[0];//
+						PortOut_2.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_2.AcyclicData003 = _DR_data[2];//
+						PortOut_2.AcyclicData004 = _DR_data[3];//
+						PortOut_2.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_2.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_2.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_2.AcyclicData008 = _DR_data[7];//SubIndex
+					break;
+					case 3: //Port 3
+						PortOut_3.AcyclicData001 = _DR_data[0];//
+						PortOut_3.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_3.AcyclicData003 = _DR_data[2];//
+						PortOut_3.AcyclicData004 = _DR_data[3];//
+						PortOut_3.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_3.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_3.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_3.AcyclicData008 = _DR_data[7];//SubIndex
+					break;
+					case 4: //Port 4
+						PortOut_4.AcyclicData001 = _DR_data[0];//
+						PortOut_4.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_4.AcyclicData003 = _DR_data[2];//
+						PortOut_4.AcyclicData004 = _DR_data[3];//
+						PortOut_4.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_4.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_4.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_4.AcyclicData008 = _DR_data[7];//SubIndex
+					break;
+					default:
+					//      _DR_result = 0x80B0;
+					//		_write("Master device says: WRREC no Port: \n ");
+					return;
+				}
+			}//_DR_data[1]!=0 end
+		}
+
+		if(_DR_data[4] == 2)
+		{
+			if(_DR_data[1] != 0)
+			{//_DR_data[1]!=0 begin
+				switch (_DR_data[1])
+				{
+					case 1: //Port 1
+						PortOut_1.AcyclicData001 = _DR_data[0];//
+						PortOut_1.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_1.AcyclicData003 = _DR_data[2];//
+						PortOut_1.AcyclicData004 = _DR_data[3];//
+						PortOut_1.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_1.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_1.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_1.AcyclicData008 = _DR_data[7];//SubIndex
+						PortOut_1.AcyclicData009 = _DR_data[8];
+						PortOut_1.AcyclicData010 = _DR_data[9];
+						PortOut_1.AcyclicData011 = _DR_data[10];
+						PortOut_1.AcyclicData012 = _DR_data[11];
+						PortOut_1.AcyclicData013 = _DR_data[12];
+						PortOut_1.AcyclicData014 = _DR_data[13];
+						PortOut_1.AcyclicData015 = _DR_data[14];
+						PortOut_1.AcyclicData016 = _DR_data[15];
+						PortOut_1.AcyclicData017 = _DR_data[16];
+						PortOut_1.AcyclicData018 = _DR_data[17];
+						PortOut_1.AcyclicData019 = _DR_data[18];
+						PortOut_1.AcyclicData020 = _DR_data[19];
+						PortOut_1.AcyclicData021 = _DR_data[20];
+						PortOut_1.AcyclicData022 = _DR_data[21];
+						PortOut_1.AcyclicData023 = _DR_data[22];
+						PortOut_1.AcyclicData024 = _DR_data[23];
+						PortOut_1.AcyclicData025 = _DR_data[24];
+						PortOut_1.AcyclicData026 = _DR_data[25];
+						PortOut_1.AcyclicData027 = _DR_data[26];
+						PortOut_1.AcyclicData028 = _DR_data[27];
+						PortOut_1.AcyclicData029 = _DR_data[28];
+						PortOut_1.AcyclicData030 = _DR_data[29];
+						PortOut_1.AcyclicData031 = _DR_data[30];
+						PortOut_1.AcyclicData032 = _DR_data[31];
+						PortOut_1.AcyclicData033 = _DR_data[32];
+						PortOut_1.AcyclicData034 = _DR_data[33];
+						PortOut_1.AcyclicData035 = _DR_data[34];
+						PortOut_1.AcyclicData036 = _DR_data[35];
+						PortOut_1.AcyclicData037 = _DR_data[36];
+						PortOut_1.AcyclicData038 = _DR_data[37];
+						PortOut_1.AcyclicData039 = _DR_data[38];
+						PortOut_1.AcyclicData040 = _DR_data[39];
+						PortOut_1.AcyclicData041 = _DR_data[40];
+						PortOut_1.AcyclicData042 = _DR_data[41];
+						PortOut_1.AcyclicData043 = _DR_data[42];
+						PortOut_1.AcyclicData044 = _DR_data[43];
+						PortOut_1.AcyclicData045 = _DR_data[44];
+						PortOut_1.AcyclicData046 = _DR_data[45];
+						PortOut_1.AcyclicData047 = _DR_data[46];
+						PortOut_1.AcyclicData048 = _DR_data[47];
+						PortOut_1.AcyclicData049 = _DR_data[48];
+						PortOut_1.AcyclicData050 = _DR_data[49];
+						PortOut_1.AcyclicData051 = _DR_data[50];
+						PortOut_1.AcyclicData052 = _DR_data[51];
+						PortOut_1.AcyclicData053 = _DR_data[52];
+						PortOut_1.AcyclicData054 = _DR_data[53];
+						PortOut_1.AcyclicData055 = _DR_data[54];
+						PortOut_1.AcyclicData056 = _DR_data[55];
+						PortOut_1.AcyclicData057 = _DR_data[56];
+						PortOut_1.AcyclicData058 = _DR_data[57];
+						PortOut_1.AcyclicData059 = _DR_data[58];
+						PortOut_1.AcyclicData060 = _DR_data[59];
+						PortOut_1.AcyclicData061 = _DR_data[60];
+						PortOut_1.AcyclicData062 = _DR_data[61];
+						PortOut_1.AcyclicData063 = _DR_data[62];
+						PortOut_1.AcyclicData064 = _DR_data[63];
+						PortOut_1.AcyclicData065 = _DR_data[64];
+						PortOut_1.AcyclicData066 = _DR_data[65];
+						PortOut_1.AcyclicData067 = _DR_data[66];
+						PortOut_1.AcyclicData068 = _DR_data[67];
+						PortOut_1.AcyclicData069 = _DR_data[68];
+						PortOut_1.AcyclicData070 = _DR_data[69];
+						PortOut_1.AcyclicData071 = _DR_data[70];
+						PortOut_1.AcyclicData072 = _DR_data[71];
+						PortOut_1.AcyclicData073 = _DR_data[72];
+						PortOut_1.AcyclicData074 = _DR_data[73];
+						PortOut_1.AcyclicData075 = _DR_data[74];
+						PortOut_1.AcyclicData076 = _DR_data[75];
+						PortOut_1.AcyclicData077 = _DR_data[76];
+						PortOut_1.AcyclicData078 = _DR_data[77];
+						PortOut_1.AcyclicData079 = _DR_data[78];
+						PortOut_1.AcyclicData080 = _DR_data[79];
+						PortOut_1.AcyclicData081 = _DR_data[80];
+						PortOut_1.AcyclicData082 = _DR_data[81];
+						PortOut_1.AcyclicData083 = _DR_data[82];
+						PortOut_1.AcyclicData084 = _DR_data[83];
+						PortOut_1.AcyclicData085 = _DR_data[84];
+						PortOut_1.AcyclicData086 = _DR_data[85];
+						PortOut_1.AcyclicData087 = _DR_data[86];
+						PortOut_1.AcyclicData088 = _DR_data[87];
+						PortOut_1.AcyclicData089 = _DR_data[88];
+						PortOut_1.AcyclicData090 = _DR_data[89];
+						PortOut_1.AcyclicData091 = _DR_data[90];
+						PortOut_1.AcyclicData092 = _DR_data[91];
+						PortOut_1.AcyclicData093 = _DR_data[92];
+						PortOut_1.AcyclicData094 = _DR_data[93];
+						PortOut_1.AcyclicData095 = _DR_data[94];
+						PortOut_1.AcyclicData096 = _DR_data[95];
+						PortOut_1.AcyclicData097 = _DR_data[96];
+						PortOut_1.AcyclicData098 = _DR_data[97];
+						PortOut_1.AcyclicData099 = _DR_data[98];
+						PortOut_1.AcyclicData100 = _DR_data[99];
+						PortOut_1.AcyclicData101 = _DR_data[100];
+						PortOut_1.AcyclicData102 = _DR_data[101];
+						PortOut_1.AcyclicData103 = _DR_data[102];
+						PortOut_1.AcyclicData104 = _DR_data[103];
+						PortOut_1.AcyclicData105 = _DR_data[104];
+						PortOut_1.AcyclicData106 = _DR_data[105];
+						PortOut_1.AcyclicData107 = _DR_data[106];
+						PortOut_1.AcyclicData108 = _DR_data[107];
+						PortOut_1.AcyclicData109 = _DR_data[108];
+						PortOut_1.AcyclicData110 = _DR_data[109];
+						PortOut_1.AcyclicData111 = _DR_data[110];
+						PortOut_1.AcyclicData112 = _DR_data[111];
+						PortOut_1.AcyclicData113 = _DR_data[112];
+						PortOut_1.AcyclicData114 = _DR_data[113];
+						PortOut_1.AcyclicData115 = _DR_data[114];
+						PortOut_1.AcyclicData116 = _DR_data[115];
+						PortOut_1.AcyclicData117 = _DR_data[116];
+						PortOut_1.AcyclicData118 = _DR_data[117];
+						PortOut_1.AcyclicData119 = _DR_data[118];
+						PortOut_1.AcyclicData120 = _DR_data[119];
+						PortOut_1.AcyclicData121 = _DR_data[120];
+						PortOut_1.AcyclicData122 = _DR_data[121];
+						PortOut_1.AcyclicData123 = _DR_data[122];
+						PortOut_1.AcyclicData124 = _DR_data[123];
+						PortOut_1.AcyclicData125 = _DR_data[124];
+						PortOut_1.AcyclicData126 = _DR_data[125];
+						PortOut_1.AcyclicData127 = _DR_data[126];
+						PortOut_1.AcyclicData128 = _DR_data[127];
+						PortOut_1.AcyclicData129 = _DR_data[128];
+						PortOut_1.AcyclicData130 = _DR_data[129];
+						PortOut_1.AcyclicData131 = _DR_data[130];
+						PortOut_1.AcyclicData132 = _DR_data[131];
+						PortOut_1.AcyclicData133 = _DR_data[132];
+						PortOut_1.AcyclicData134 = _DR_data[133];
+						PortOut_1.AcyclicData135 = _DR_data[134];
+						PortOut_1.AcyclicData136 = _DR_data[135];
+						PortOut_1.AcyclicData137 = _DR_data[136];
+						PortOut_1.AcyclicData138 = _DR_data[137];
+						PortOut_1.AcyclicData139 = _DR_data[138];
+						PortOut_1.AcyclicData140 = _DR_data[139];
+						PortOut_1.AcyclicData141 = _DR_data[140];
+						PortOut_1.AcyclicData142 = _DR_data[141];
+						PortOut_1.AcyclicData143 = _DR_data[142];
+						PortOut_1.AcyclicData144 = _DR_data[143];
+						PortOut_1.AcyclicData145 = _DR_data[144];
+						PortOut_1.AcyclicData146 = _DR_data[145];
+						PortOut_1.AcyclicData147 = _DR_data[146];
+						PortOut_1.AcyclicData148 = _DR_data[147];
+						PortOut_1.AcyclicData149 = _DR_data[148];
+						PortOut_1.AcyclicData150 = _DR_data[149];
+						PortOut_1.AcyclicData151 = _DR_data[150];
+						PortOut_1.AcyclicData152 = _DR_data[151];
+						PortOut_1.AcyclicData153 = _DR_data[152];
+						PortOut_1.AcyclicData154 = _DR_data[153];
+						PortOut_1.AcyclicData155 = _DR_data[154];
+						PortOut_1.AcyclicData156 = _DR_data[155];
+						PortOut_1.AcyclicData157 = _DR_data[156];
+						PortOut_1.AcyclicData158 = _DR_data[157];
+						PortOut_1.AcyclicData159 = _DR_data[158];
+						PortOut_1.AcyclicData160 = _DR_data[159];
+						PortOut_1.AcyclicData161 = _DR_data[160];
+						PortOut_1.AcyclicData162 = _DR_data[161];
+						PortOut_1.AcyclicData163 = _DR_data[162];
+						PortOut_1.AcyclicData164 = _DR_data[163];
+						PortOut_1.AcyclicData165 = _DR_data[164];
+						PortOut_1.AcyclicData166 = _DR_data[165];
+						PortOut_1.AcyclicData167 = _DR_data[166];
+						PortOut_1.AcyclicData168 = _DR_data[167];
+						PortOut_1.AcyclicData169 = _DR_data[168];
+						PortOut_1.AcyclicData170 = _DR_data[169];
+						PortOut_1.AcyclicData171 = _DR_data[170];
+						PortOut_1.AcyclicData172 = _DR_data[171];
+						PortOut_1.AcyclicData173 = _DR_data[172];
+						PortOut_1.AcyclicData174 = _DR_data[173];
+						PortOut_1.AcyclicData175 = _DR_data[174];
+						PortOut_1.AcyclicData176 = _DR_data[175];
+						PortOut_1.AcyclicData177 = _DR_data[176];
+						PortOut_1.AcyclicData178 = _DR_data[177];
+						PortOut_1.AcyclicData179 = _DR_data[178];
+						PortOut_1.AcyclicData180 = _DR_data[179];
+						PortOut_1.AcyclicData181 = _DR_data[180];
+						PortOut_1.AcyclicData182 = _DR_data[181];
+						PortOut_1.AcyclicData183 = _DR_data[182];
+						PortOut_1.AcyclicData184 = _DR_data[183];
+						PortOut_1.AcyclicData185 = _DR_data[184];
+						PortOut_1.AcyclicData186 = _DR_data[185];
+						PortOut_1.AcyclicData187 = _DR_data[186];
+						PortOut_1.AcyclicData188 = _DR_data[187];
+						PortOut_1.AcyclicData189 = _DR_data[188];
+						PortOut_1.AcyclicData190 = _DR_data[189];
+						PortOut_1.AcyclicData191 = _DR_data[190];
+						PortOut_1.AcyclicData192 = _DR_data[191];
+						PortOut_1.AcyclicData193 = _DR_data[192];
+						PortOut_1.AcyclicData194 = _DR_data[193];
+						PortOut_1.AcyclicData195 = _DR_data[194];
+						PortOut_1.AcyclicData196 = _DR_data[195];
+						PortOut_1.AcyclicData197 = _DR_data[196];
+						PortOut_1.AcyclicData198 = _DR_data[197];
+						PortOut_1.AcyclicData199 = _DR_data[198];
+						PortOut_1.AcyclicData200 = _DR_data[199];
+						PortOut_1.AcyclicData201 = _DR_data[200];
+						PortOut_1.AcyclicData202 = _DR_data[201];
+						PortOut_1.AcyclicData203 = _DR_data[202];
+						PortOut_1.AcyclicData204 = _DR_data[203];
+						PortOut_1.AcyclicData205 = _DR_data[204];
+						PortOut_1.AcyclicData206 = _DR_data[205];
+						PortOut_1.AcyclicData207 = _DR_data[206];
+						PortOut_1.AcyclicData208 = _DR_data[207];
+						PortOut_1.AcyclicData209 = _DR_data[208];
+						PortOut_1.AcyclicData210 = _DR_data[209];
+						PortOut_1.AcyclicData211 = _DR_data[210];
+						PortOut_1.AcyclicData212 = _DR_data[211];
+						PortOut_1.AcyclicData213 = _DR_data[212];
+						PortOut_1.AcyclicData214 = _DR_data[213];
+						PortOut_1.AcyclicData215 = _DR_data[214];
+						PortOut_1.AcyclicData216 = _DR_data[215];
+						PortOut_1.AcyclicData217 = _DR_data[216];
+						PortOut_1.AcyclicData218 = _DR_data[217];
+						PortOut_1.AcyclicData219 = _DR_data[218];
+						PortOut_1.AcyclicData220 = _DR_data[219];
+						PortOut_1.AcyclicData221 = _DR_data[220];
+						PortOut_1.AcyclicData222 = _DR_data[221];
+						PortOut_1.AcyclicData223 = _DR_data[222];
+						PortOut_1.AcyclicData224 = _DR_data[223];
+						PortOut_1.AcyclicData225 = _DR_data[224];
+						PortOut_1.AcyclicData226 = _DR_data[225];
+						PortOut_1.AcyclicData227 = _DR_data[226];
+						PortOut_1.AcyclicData228 = _DR_data[227];
+						PortOut_1.AcyclicData229 = _DR_data[228];
+						PortOut_1.AcyclicData230 = _DR_data[229];
+						PortOut_1.AcyclicData231 = _DR_data[230];
+						PortOut_1.AcyclicData232 = _DR_data[231];
+						PortOut_1.AcyclicData233 = _DR_data[232];
+						PortOut_1.AcyclicData234 = _DR_data[233];
+						PortOut_1.AcyclicData235 = _DR_data[234];
+						PortOut_1.AcyclicData236 = _DR_data[235];
+						PortOut_1.AcyclicData237 = _DR_data[236];
+						PortOut_1.AcyclicData238 = _DR_data[237];
+						PortOut_1.AcyclicData239 = _DR_data[238];
+						PortOut_1.AcyclicData240 = _DR_data[239];
+					break;
+					case 2: //Port 2
+						PortOut_2.AcyclicData001 = _DR_data[0];//
+						PortOut_2.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_2.AcyclicData003 = _DR_data[2];//
+						PortOut_2.AcyclicData004 = _DR_data[3];//
+						PortOut_2.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_2.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_2.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_2.AcyclicData008 = _DR_data[7];//SubIndex
+						PortOut_2.AcyclicData009 = _DR_data[8];
+						PortOut_2.AcyclicData010 = _DR_data[9];
+						PortOut_2.AcyclicData011 = _DR_data[10];
+						PortOut_2.AcyclicData012 = _DR_data[11];
+						PortOut_2.AcyclicData013 = _DR_data[12];
+						PortOut_2.AcyclicData014 = _DR_data[13];
+						PortOut_2.AcyclicData015 = _DR_data[14];
+						PortOut_2.AcyclicData016 = _DR_data[15];
+						PortOut_2.AcyclicData017 = _DR_data[16];
+						PortOut_2.AcyclicData018 = _DR_data[17];
+						PortOut_2.AcyclicData019 = _DR_data[18];
+						PortOut_2.AcyclicData020 = _DR_data[19];
+						PortOut_2.AcyclicData021 = _DR_data[20];
+						PortOut_2.AcyclicData022 = _DR_data[21];
+						PortOut_2.AcyclicData023 = _DR_data[22];
+						PortOut_2.AcyclicData024 = _DR_data[23];
+						PortOut_2.AcyclicData025 = _DR_data[24];
+						PortOut_2.AcyclicData026 = _DR_data[25];
+						PortOut_2.AcyclicData027 = _DR_data[26];
+						PortOut_2.AcyclicData028 = _DR_data[27];
+						PortOut_2.AcyclicData029 = _DR_data[28];
+						PortOut_2.AcyclicData030 = _DR_data[29];
+						PortOut_2.AcyclicData031 = _DR_data[30];
+						PortOut_2.AcyclicData032 = _DR_data[31];
+						PortOut_2.AcyclicData033 = _DR_data[32];
+						PortOut_2.AcyclicData034 = _DR_data[33];
+						PortOut_2.AcyclicData035 = _DR_data[34];
+						PortOut_2.AcyclicData036 = _DR_data[35];
+						PortOut_2.AcyclicData037 = _DR_data[36];
+						PortOut_2.AcyclicData038 = _DR_data[37];
+						PortOut_2.AcyclicData039 = _DR_data[38];
+						PortOut_2.AcyclicData040 = _DR_data[39];
+						PortOut_2.AcyclicData041 = _DR_data[40];
+						PortOut_2.AcyclicData042 = _DR_data[41];
+						PortOut_2.AcyclicData043 = _DR_data[42];
+						PortOut_2.AcyclicData044 = _DR_data[43];
+						PortOut_2.AcyclicData045 = _DR_data[44];
+						PortOut_2.AcyclicData046 = _DR_data[45];
+						PortOut_2.AcyclicData047 = _DR_data[46];
+						PortOut_2.AcyclicData048 = _DR_data[47];
+						PortOut_2.AcyclicData049 = _DR_data[48];
+						PortOut_2.AcyclicData050 = _DR_data[49];
+						PortOut_2.AcyclicData051 = _DR_data[50];
+						PortOut_2.AcyclicData052 = _DR_data[51];
+						PortOut_2.AcyclicData053 = _DR_data[52];
+						PortOut_2.AcyclicData054 = _DR_data[53];
+						PortOut_2.AcyclicData055 = _DR_data[54];
+						PortOut_2.AcyclicData056 = _DR_data[55];
+						PortOut_2.AcyclicData057 = _DR_data[56];
+						PortOut_2.AcyclicData058 = _DR_data[57];
+						PortOut_2.AcyclicData059 = _DR_data[58];
+						PortOut_2.AcyclicData060 = _DR_data[59];
+						PortOut_2.AcyclicData061 = _DR_data[60];
+						PortOut_2.AcyclicData062 = _DR_data[61];
+						PortOut_2.AcyclicData063 = _DR_data[62];
+						PortOut_2.AcyclicData064 = _DR_data[63];
+						PortOut_2.AcyclicData065 = _DR_data[64];
+						PortOut_2.AcyclicData066 = _DR_data[65];
+						PortOut_2.AcyclicData067 = _DR_data[66];
+						PortOut_2.AcyclicData068 = _DR_data[67];
+						PortOut_2.AcyclicData069 = _DR_data[68];
+						PortOut_2.AcyclicData070 = _DR_data[69];
+						PortOut_2.AcyclicData071 = _DR_data[70];
+						PortOut_2.AcyclicData072 = _DR_data[71];
+						PortOut_2.AcyclicData073 = _DR_data[72];
+						PortOut_2.AcyclicData074 = _DR_data[73];
+						PortOut_2.AcyclicData075 = _DR_data[74];
+						PortOut_2.AcyclicData076 = _DR_data[75];
+						PortOut_2.AcyclicData077 = _DR_data[76];
+						PortOut_2.AcyclicData078 = _DR_data[77];
+						PortOut_2.AcyclicData079 = _DR_data[78];
+						PortOut_2.AcyclicData080 = _DR_data[79];
+						PortOut_2.AcyclicData081 = _DR_data[80];
+						PortOut_2.AcyclicData082 = _DR_data[81];
+						PortOut_2.AcyclicData083 = _DR_data[82];
+						PortOut_2.AcyclicData084 = _DR_data[83];
+						PortOut_2.AcyclicData085 = _DR_data[84];
+						PortOut_2.AcyclicData086 = _DR_data[85];
+						PortOut_2.AcyclicData087 = _DR_data[86];
+						PortOut_2.AcyclicData088 = _DR_data[87];
+						PortOut_2.AcyclicData089 = _DR_data[88];
+						PortOut_2.AcyclicData090 = _DR_data[89];
+						PortOut_2.AcyclicData091 = _DR_data[90];
+						PortOut_2.AcyclicData092 = _DR_data[91];
+						PortOut_2.AcyclicData093 = _DR_data[92];
+						PortOut_2.AcyclicData094 = _DR_data[93];
+						PortOut_2.AcyclicData095 = _DR_data[94];
+						PortOut_2.AcyclicData096 = _DR_data[95];
+						PortOut_2.AcyclicData097 = _DR_data[96];
+						PortOut_2.AcyclicData098 = _DR_data[97];
+						PortOut_2.AcyclicData099 = _DR_data[98];
+						PortOut_2.AcyclicData100 = _DR_data[99];
+						PortOut_2.AcyclicData101 = _DR_data[100];
+						PortOut_2.AcyclicData102 = _DR_data[101];
+						PortOut_2.AcyclicData103 = _DR_data[102];
+						PortOut_2.AcyclicData104 = _DR_data[103];
+						PortOut_2.AcyclicData105 = _DR_data[104];
+						PortOut_2.AcyclicData106 = _DR_data[105];
+						PortOut_2.AcyclicData107 = _DR_data[106];
+						PortOut_2.AcyclicData108 = _DR_data[107];
+						PortOut_2.AcyclicData109 = _DR_data[108];
+						PortOut_2.AcyclicData110 = _DR_data[109];
+						PortOut_2.AcyclicData111 = _DR_data[110];
+						PortOut_2.AcyclicData112 = _DR_data[111];
+						PortOut_2.AcyclicData113 = _DR_data[112];
+						PortOut_2.AcyclicData114 = _DR_data[113];
+						PortOut_2.AcyclicData115 = _DR_data[114];
+						PortOut_2.AcyclicData116 = _DR_data[115];
+						PortOut_2.AcyclicData117 = _DR_data[116];
+						PortOut_2.AcyclicData118 = _DR_data[117];
+						PortOut_2.AcyclicData119 = _DR_data[118];
+						PortOut_2.AcyclicData120 = _DR_data[119];
+						PortOut_2.AcyclicData121 = _DR_data[120];
+						PortOut_2.AcyclicData122 = _DR_data[121];
+						PortOut_2.AcyclicData123 = _DR_data[122];
+						PortOut_2.AcyclicData124 = _DR_data[123];
+						PortOut_2.AcyclicData125 = _DR_data[124];
+						PortOut_2.AcyclicData126 = _DR_data[125];
+						PortOut_2.AcyclicData127 = _DR_data[126];
+						PortOut_2.AcyclicData128 = _DR_data[127];
+						PortOut_2.AcyclicData129 = _DR_data[128];
+						PortOut_2.AcyclicData130 = _DR_data[129];
+						PortOut_2.AcyclicData131 = _DR_data[130];
+						PortOut_2.AcyclicData132 = _DR_data[131];
+						PortOut_2.AcyclicData133 = _DR_data[132];
+						PortOut_2.AcyclicData134 = _DR_data[133];
+						PortOut_2.AcyclicData135 = _DR_data[134];
+						PortOut_2.AcyclicData136 = _DR_data[135];
+						PortOut_2.AcyclicData137 = _DR_data[136];
+						PortOut_2.AcyclicData138 = _DR_data[137];
+						PortOut_2.AcyclicData139 = _DR_data[138];
+						PortOut_2.AcyclicData140 = _DR_data[139];
+						PortOut_2.AcyclicData141 = _DR_data[140];
+						PortOut_2.AcyclicData142 = _DR_data[141];
+						PortOut_2.AcyclicData143 = _DR_data[142];
+						PortOut_2.AcyclicData144 = _DR_data[143];
+						PortOut_2.AcyclicData145 = _DR_data[144];
+						PortOut_2.AcyclicData146 = _DR_data[145];
+						PortOut_2.AcyclicData147 = _DR_data[146];
+						PortOut_2.AcyclicData148 = _DR_data[147];
+						PortOut_2.AcyclicData149 = _DR_data[148];
+						PortOut_2.AcyclicData150 = _DR_data[149];
+						PortOut_2.AcyclicData151 = _DR_data[150];
+						PortOut_2.AcyclicData152 = _DR_data[151];
+						PortOut_2.AcyclicData153 = _DR_data[152];
+						PortOut_2.AcyclicData154 = _DR_data[153];
+						PortOut_2.AcyclicData155 = _DR_data[154];
+						PortOut_2.AcyclicData156 = _DR_data[155];
+						PortOut_2.AcyclicData157 = _DR_data[156];
+						PortOut_2.AcyclicData158 = _DR_data[157];
+						PortOut_2.AcyclicData159 = _DR_data[158];
+						PortOut_2.AcyclicData160 = _DR_data[159];
+						PortOut_2.AcyclicData161 = _DR_data[160];
+						PortOut_2.AcyclicData162 = _DR_data[161];
+						PortOut_2.AcyclicData163 = _DR_data[162];
+						PortOut_2.AcyclicData164 = _DR_data[163];
+						PortOut_2.AcyclicData165 = _DR_data[164];
+						PortOut_2.AcyclicData166 = _DR_data[165];
+						PortOut_2.AcyclicData167 = _DR_data[166];
+						PortOut_2.AcyclicData168 = _DR_data[167];
+						PortOut_2.AcyclicData169 = _DR_data[168];
+						PortOut_2.AcyclicData170 = _DR_data[169];
+						PortOut_2.AcyclicData171 = _DR_data[170];
+						PortOut_2.AcyclicData172 = _DR_data[171];
+						PortOut_2.AcyclicData173 = _DR_data[172];
+						PortOut_2.AcyclicData174 = _DR_data[173];
+						PortOut_2.AcyclicData175 = _DR_data[174];
+						PortOut_2.AcyclicData176 = _DR_data[175];
+						PortOut_2.AcyclicData177 = _DR_data[176];
+						PortOut_2.AcyclicData178 = _DR_data[177];
+						PortOut_2.AcyclicData179 = _DR_data[178];
+						PortOut_2.AcyclicData180 = _DR_data[179];
+						PortOut_2.AcyclicData181 = _DR_data[180];
+						PortOut_2.AcyclicData182 = _DR_data[181];
+						PortOut_2.AcyclicData183 = _DR_data[182];
+						PortOut_2.AcyclicData184 = _DR_data[183];
+						PortOut_2.AcyclicData185 = _DR_data[184];
+						PortOut_2.AcyclicData186 = _DR_data[185];
+						PortOut_2.AcyclicData187 = _DR_data[186];
+						PortOut_2.AcyclicData188 = _DR_data[187];
+						PortOut_2.AcyclicData189 = _DR_data[188];
+						PortOut_2.AcyclicData190 = _DR_data[189];
+						PortOut_2.AcyclicData191 = _DR_data[190];
+						PortOut_2.AcyclicData192 = _DR_data[191];
+						PortOut_2.AcyclicData193 = _DR_data[192];
+						PortOut_2.AcyclicData194 = _DR_data[193];
+						PortOut_2.AcyclicData195 = _DR_data[194];
+						PortOut_2.AcyclicData196 = _DR_data[195];
+						PortOut_2.AcyclicData197 = _DR_data[196];
+						PortOut_2.AcyclicData198 = _DR_data[197];
+						PortOut_2.AcyclicData199 = _DR_data[198];
+						PortOut_2.AcyclicData200 = _DR_data[199];
+						PortOut_2.AcyclicData201 = _DR_data[200];
+						PortOut_2.AcyclicData202 = _DR_data[201];
+						PortOut_2.AcyclicData203 = _DR_data[202];
+						PortOut_2.AcyclicData204 = _DR_data[203];
+						PortOut_2.AcyclicData205 = _DR_data[204];
+						PortOut_2.AcyclicData206 = _DR_data[205];
+						PortOut_2.AcyclicData207 = _DR_data[206];
+						PortOut_2.AcyclicData208 = _DR_data[207];
+						PortOut_2.AcyclicData209 = _DR_data[208];
+						PortOut_2.AcyclicData210 = _DR_data[209];
+						PortOut_2.AcyclicData211 = _DR_data[210];
+						PortOut_2.AcyclicData212 = _DR_data[211];
+						PortOut_2.AcyclicData213 = _DR_data[212];
+						PortOut_2.AcyclicData214 = _DR_data[213];
+						PortOut_2.AcyclicData215 = _DR_data[214];
+						PortOut_2.AcyclicData216 = _DR_data[215];
+						PortOut_2.AcyclicData217 = _DR_data[216];
+						PortOut_2.AcyclicData218 = _DR_data[217];
+						PortOut_2.AcyclicData219 = _DR_data[218];
+						PortOut_2.AcyclicData220 = _DR_data[219];
+						PortOut_2.AcyclicData221 = _DR_data[220];
+						PortOut_2.AcyclicData222 = _DR_data[221];
+						PortOut_2.AcyclicData223 = _DR_data[222];
+						PortOut_2.AcyclicData224 = _DR_data[223];
+						PortOut_2.AcyclicData225 = _DR_data[224];
+						PortOut_2.AcyclicData226 = _DR_data[225];
+						PortOut_2.AcyclicData227 = _DR_data[226];
+						PortOut_2.AcyclicData228 = _DR_data[227];
+						PortOut_2.AcyclicData229 = _DR_data[228];
+						PortOut_2.AcyclicData230 = _DR_data[229];
+						PortOut_2.AcyclicData231 = _DR_data[230];
+						PortOut_2.AcyclicData232 = _DR_data[231];
+						PortOut_2.AcyclicData233 = _DR_data[232];
+						PortOut_2.AcyclicData234 = _DR_data[233];
+						PortOut_2.AcyclicData235 = _DR_data[234];
+						PortOut_2.AcyclicData236 = _DR_data[235];
+						PortOut_2.AcyclicData237 = _DR_data[236];
+						PortOut_2.AcyclicData238 = _DR_data[237];
+						PortOut_2.AcyclicData239 = _DR_data[238];
+						PortOut_2.AcyclicData240 = _DR_data[239];
+					break;
+					case 3: //Port 3
+						PortOut_3.AcyclicData001 = _DR_data[0];//
+						PortOut_3.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_3.AcyclicData003 = _DR_data[2];//
+						PortOut_3.AcyclicData004 = _DR_data[3];//
+						PortOut_3.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_3.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_3.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_3.AcyclicData008 = _DR_data[7];//SubIndex
+						PortOut_3.AcyclicData009 = _DR_data[8];
+						PortOut_3.AcyclicData010 = _DR_data[9];
+						PortOut_3.AcyclicData011 = _DR_data[10];
+						PortOut_3.AcyclicData012 = _DR_data[11];
+						PortOut_3.AcyclicData013 = _DR_data[12];
+						PortOut_3.AcyclicData014 = _DR_data[13];
+						PortOut_3.AcyclicData015 = _DR_data[14];
+						PortOut_3.AcyclicData016 = _DR_data[15];
+						PortOut_3.AcyclicData017 = _DR_data[16];
+						PortOut_3.AcyclicData018 = _DR_data[17];
+						PortOut_3.AcyclicData019 = _DR_data[18];
+						PortOut_3.AcyclicData020 = _DR_data[19];
+						PortOut_3.AcyclicData021 = _DR_data[20];
+						PortOut_3.AcyclicData022 = _DR_data[21];
+						PortOut_3.AcyclicData023 = _DR_data[22];
+						PortOut_3.AcyclicData024 = _DR_data[23];
+						PortOut_3.AcyclicData025 = _DR_data[24];
+						PortOut_3.AcyclicData026 = _DR_data[25];
+						PortOut_3.AcyclicData027 = _DR_data[26];
+						PortOut_3.AcyclicData028 = _DR_data[27];
+						PortOut_3.AcyclicData029 = _DR_data[28];
+						PortOut_3.AcyclicData030 = _DR_data[29];
+						PortOut_3.AcyclicData031 = _DR_data[30];
+						PortOut_3.AcyclicData032 = _DR_data[31];
+						PortOut_3.AcyclicData033 = _DR_data[32];
+						PortOut_3.AcyclicData034 = _DR_data[33];
+						PortOut_3.AcyclicData035 = _DR_data[34];
+						PortOut_3.AcyclicData036 = _DR_data[35];
+						PortOut_3.AcyclicData037 = _DR_data[36];
+						PortOut_3.AcyclicData038 = _DR_data[37];
+						PortOut_3.AcyclicData039 = _DR_data[38];
+						PortOut_3.AcyclicData040 = _DR_data[39];
+						PortOut_3.AcyclicData041 = _DR_data[40];
+						PortOut_3.AcyclicData042 = _DR_data[41];
+						PortOut_3.AcyclicData043 = _DR_data[42];
+						PortOut_3.AcyclicData044 = _DR_data[43];
+						PortOut_3.AcyclicData045 = _DR_data[44];
+						PortOut_3.AcyclicData046 = _DR_data[45];
+						PortOut_3.AcyclicData047 = _DR_data[46];
+						PortOut_3.AcyclicData048 = _DR_data[47];
+						PortOut_3.AcyclicData049 = _DR_data[48];
+						PortOut_3.AcyclicData050 = _DR_data[49];
+						PortOut_3.AcyclicData051 = _DR_data[50];
+						PortOut_3.AcyclicData052 = _DR_data[51];
+						PortOut_3.AcyclicData053 = _DR_data[52];
+						PortOut_3.AcyclicData054 = _DR_data[53];
+						PortOut_3.AcyclicData055 = _DR_data[54];
+						PortOut_3.AcyclicData056 = _DR_data[55];
+						PortOut_3.AcyclicData057 = _DR_data[56];
+						PortOut_3.AcyclicData058 = _DR_data[57];
+						PortOut_3.AcyclicData059 = _DR_data[58];
+						PortOut_3.AcyclicData060 = _DR_data[59];
+						PortOut_3.AcyclicData061 = _DR_data[60];
+						PortOut_3.AcyclicData062 = _DR_data[61];
+						PortOut_3.AcyclicData063 = _DR_data[62];
+						PortOut_3.AcyclicData064 = _DR_data[63];
+						PortOut_3.AcyclicData065 = _DR_data[64];
+						PortOut_3.AcyclicData066 = _DR_data[65];
+						PortOut_3.AcyclicData067 = _DR_data[66];
+						PortOut_3.AcyclicData068 = _DR_data[67];
+						PortOut_3.AcyclicData069 = _DR_data[68];
+						PortOut_3.AcyclicData070 = _DR_data[69];
+						PortOut_3.AcyclicData071 = _DR_data[70];
+						PortOut_3.AcyclicData072 = _DR_data[71];
+						PortOut_3.AcyclicData073 = _DR_data[72];
+						PortOut_3.AcyclicData074 = _DR_data[73];
+						PortOut_3.AcyclicData075 = _DR_data[74];
+						PortOut_3.AcyclicData076 = _DR_data[75];
+						PortOut_3.AcyclicData077 = _DR_data[76];
+						PortOut_3.AcyclicData078 = _DR_data[77];
+						PortOut_3.AcyclicData079 = _DR_data[78];
+						PortOut_3.AcyclicData080 = _DR_data[79];
+						PortOut_3.AcyclicData081 = _DR_data[80];
+						PortOut_3.AcyclicData082 = _DR_data[81];
+						PortOut_3.AcyclicData083 = _DR_data[82];
+						PortOut_3.AcyclicData084 = _DR_data[83];
+						PortOut_3.AcyclicData085 = _DR_data[84];
+						PortOut_3.AcyclicData086 = _DR_data[85];
+						PortOut_3.AcyclicData087 = _DR_data[86];
+						PortOut_3.AcyclicData088 = _DR_data[87];
+						PortOut_3.AcyclicData089 = _DR_data[88];
+						PortOut_3.AcyclicData090 = _DR_data[89];
+						PortOut_3.AcyclicData091 = _DR_data[90];
+						PortOut_3.AcyclicData092 = _DR_data[91];
+						PortOut_3.AcyclicData093 = _DR_data[92];
+						PortOut_3.AcyclicData094 = _DR_data[93];
+						PortOut_3.AcyclicData095 = _DR_data[94];
+						PortOut_3.AcyclicData096 = _DR_data[95];
+						PortOut_3.AcyclicData097 = _DR_data[96];
+						PortOut_3.AcyclicData098 = _DR_data[97];
+						PortOut_3.AcyclicData099 = _DR_data[98];
+						PortOut_3.AcyclicData100 = _DR_data[99];
+						PortOut_3.AcyclicData101 = _DR_data[100];
+						PortOut_3.AcyclicData102 = _DR_data[101];
+						PortOut_3.AcyclicData103 = _DR_data[102];
+						PortOut_3.AcyclicData104 = _DR_data[103];
+						PortOut_3.AcyclicData105 = _DR_data[104];
+						PortOut_3.AcyclicData106 = _DR_data[105];
+						PortOut_3.AcyclicData107 = _DR_data[106];
+						PortOut_3.AcyclicData108 = _DR_data[107];
+						PortOut_3.AcyclicData109 = _DR_data[108];
+						PortOut_3.AcyclicData110 = _DR_data[109];
+						PortOut_3.AcyclicData111 = _DR_data[110];
+						PortOut_3.AcyclicData112 = _DR_data[111];
+						PortOut_3.AcyclicData113 = _DR_data[112];
+						PortOut_3.AcyclicData114 = _DR_data[113];
+						PortOut_3.AcyclicData115 = _DR_data[114];
+						PortOut_3.AcyclicData116 = _DR_data[115];
+						PortOut_3.AcyclicData117 = _DR_data[116];
+						PortOut_3.AcyclicData118 = _DR_data[117];
+						PortOut_3.AcyclicData119 = _DR_data[118];
+						PortOut_3.AcyclicData120 = _DR_data[119];
+						PortOut_3.AcyclicData121 = _DR_data[120];
+						PortOut_3.AcyclicData122 = _DR_data[121];
+						PortOut_3.AcyclicData123 = _DR_data[122];
+						PortOut_3.AcyclicData124 = _DR_data[123];
+						PortOut_3.AcyclicData125 = _DR_data[124];
+						PortOut_3.AcyclicData126 = _DR_data[125];
+						PortOut_3.AcyclicData127 = _DR_data[126];
+						PortOut_3.AcyclicData128 = _DR_data[127];
+						PortOut_3.AcyclicData129 = _DR_data[128];
+						PortOut_3.AcyclicData130 = _DR_data[129];
+						PortOut_3.AcyclicData131 = _DR_data[130];
+						PortOut_3.AcyclicData132 = _DR_data[131];
+						PortOut_3.AcyclicData133 = _DR_data[132];
+						PortOut_3.AcyclicData134 = _DR_data[133];
+						PortOut_3.AcyclicData135 = _DR_data[134];
+						PortOut_3.AcyclicData136 = _DR_data[135];
+						PortOut_3.AcyclicData137 = _DR_data[136];
+						PortOut_3.AcyclicData138 = _DR_data[137];
+						PortOut_3.AcyclicData139 = _DR_data[138];
+						PortOut_3.AcyclicData140 = _DR_data[139];
+						PortOut_3.AcyclicData141 = _DR_data[140];
+						PortOut_3.AcyclicData142 = _DR_data[141];
+						PortOut_3.AcyclicData143 = _DR_data[142];
+						PortOut_3.AcyclicData144 = _DR_data[143];
+						PortOut_3.AcyclicData145 = _DR_data[144];
+						PortOut_3.AcyclicData146 = _DR_data[145];
+						PortOut_3.AcyclicData147 = _DR_data[146];
+						PortOut_3.AcyclicData148 = _DR_data[147];
+						PortOut_3.AcyclicData149 = _DR_data[148];
+						PortOut_3.AcyclicData150 = _DR_data[149];
+						PortOut_3.AcyclicData151 = _DR_data[150];
+						PortOut_3.AcyclicData152 = _DR_data[151];
+						PortOut_3.AcyclicData153 = _DR_data[152];
+						PortOut_3.AcyclicData154 = _DR_data[153];
+						PortOut_3.AcyclicData155 = _DR_data[154];
+						PortOut_3.AcyclicData156 = _DR_data[155];
+						PortOut_3.AcyclicData157 = _DR_data[156];
+						PortOut_3.AcyclicData158 = _DR_data[157];
+						PortOut_3.AcyclicData159 = _DR_data[158];
+						PortOut_3.AcyclicData160 = _DR_data[159];
+						PortOut_3.AcyclicData161 = _DR_data[160];
+						PortOut_3.AcyclicData162 = _DR_data[161];
+						PortOut_3.AcyclicData163 = _DR_data[162];
+						PortOut_3.AcyclicData164 = _DR_data[163];
+						PortOut_3.AcyclicData165 = _DR_data[164];
+						PortOut_3.AcyclicData166 = _DR_data[165];
+						PortOut_3.AcyclicData167 = _DR_data[166];
+						PortOut_3.AcyclicData168 = _DR_data[167];
+						PortOut_3.AcyclicData169 = _DR_data[168];
+						PortOut_3.AcyclicData170 = _DR_data[169];
+						PortOut_3.AcyclicData171 = _DR_data[170];
+						PortOut_3.AcyclicData172 = _DR_data[171];
+						PortOut_3.AcyclicData173 = _DR_data[172];
+						PortOut_3.AcyclicData174 = _DR_data[173];
+						PortOut_3.AcyclicData175 = _DR_data[174];
+						PortOut_3.AcyclicData176 = _DR_data[175];
+						PortOut_3.AcyclicData177 = _DR_data[176];
+						PortOut_3.AcyclicData178 = _DR_data[177];
+						PortOut_3.AcyclicData179 = _DR_data[178];
+						PortOut_3.AcyclicData180 = _DR_data[179];
+						PortOut_3.AcyclicData181 = _DR_data[180];
+						PortOut_3.AcyclicData182 = _DR_data[181];
+						PortOut_3.AcyclicData183 = _DR_data[182];
+						PortOut_3.AcyclicData184 = _DR_data[183];
+						PortOut_3.AcyclicData185 = _DR_data[184];
+						PortOut_3.AcyclicData186 = _DR_data[185];
+						PortOut_3.AcyclicData187 = _DR_data[186];
+						PortOut_3.AcyclicData188 = _DR_data[187];
+						PortOut_3.AcyclicData189 = _DR_data[188];
+						PortOut_3.AcyclicData190 = _DR_data[189];
+						PortOut_3.AcyclicData191 = _DR_data[190];
+						PortOut_3.AcyclicData192 = _DR_data[191];
+						PortOut_3.AcyclicData193 = _DR_data[192];
+						PortOut_3.AcyclicData194 = _DR_data[193];
+						PortOut_3.AcyclicData195 = _DR_data[194];
+						PortOut_3.AcyclicData196 = _DR_data[195];
+						PortOut_3.AcyclicData197 = _DR_data[196];
+						PortOut_3.AcyclicData198 = _DR_data[197];
+						PortOut_3.AcyclicData199 = _DR_data[198];
+						PortOut_3.AcyclicData200 = _DR_data[199];
+						PortOut_3.AcyclicData201 = _DR_data[200];
+						PortOut_3.AcyclicData202 = _DR_data[201];
+						PortOut_3.AcyclicData203 = _DR_data[202];
+						PortOut_3.AcyclicData204 = _DR_data[203];
+						PortOut_3.AcyclicData205 = _DR_data[204];
+						PortOut_3.AcyclicData206 = _DR_data[205];
+						PortOut_3.AcyclicData207 = _DR_data[206];
+						PortOut_3.AcyclicData208 = _DR_data[207];
+						PortOut_3.AcyclicData209 = _DR_data[208];
+						PortOut_3.AcyclicData210 = _DR_data[209];
+						PortOut_3.AcyclicData211 = _DR_data[210];
+						PortOut_3.AcyclicData212 = _DR_data[211];
+						PortOut_3.AcyclicData213 = _DR_data[212];
+						PortOut_3.AcyclicData214 = _DR_data[213];
+						PortOut_3.AcyclicData215 = _DR_data[214];
+						PortOut_3.AcyclicData216 = _DR_data[215];
+						PortOut_3.AcyclicData217 = _DR_data[216];
+						PortOut_3.AcyclicData218 = _DR_data[217];
+						PortOut_3.AcyclicData219 = _DR_data[218];
+						PortOut_3.AcyclicData220 = _DR_data[219];
+						PortOut_3.AcyclicData221 = _DR_data[220];
+						PortOut_3.AcyclicData222 = _DR_data[221];
+						PortOut_3.AcyclicData223 = _DR_data[222];
+						PortOut_3.AcyclicData224 = _DR_data[223];
+						PortOut_3.AcyclicData225 = _DR_data[224];
+						PortOut_3.AcyclicData226 = _DR_data[225];
+						PortOut_3.AcyclicData227 = _DR_data[226];
+						PortOut_3.AcyclicData228 = _DR_data[227];
+						PortOut_3.AcyclicData229 = _DR_data[228];
+						PortOut_3.AcyclicData230 = _DR_data[229];
+						PortOut_3.AcyclicData231 = _DR_data[230];
+						PortOut_3.AcyclicData232 = _DR_data[231];
+						PortOut_3.AcyclicData233 = _DR_data[232];
+						PortOut_3.AcyclicData234 = _DR_data[233];
+						PortOut_3.AcyclicData235 = _DR_data[234];
+						PortOut_3.AcyclicData236 = _DR_data[235];
+						PortOut_3.AcyclicData237 = _DR_data[236];
+						PortOut_3.AcyclicData238 = _DR_data[237];
+						PortOut_3.AcyclicData239 = _DR_data[238];
+						PortOut_3.AcyclicData240 = _DR_data[239];
+					break;
+					case 4: //Port 4
+						PortOut_4.AcyclicData001 = _DR_data[0];//
+						PortOut_4.AcyclicData002 = _DR_data[1];//port number use as trigger
+						PortOut_4.AcyclicData003 = _DR_data[2];//
+						PortOut_4.AcyclicData004 = _DR_data[3];//
+						PortOut_4.AcyclicData005 = _DR_data[4];//Status for read = 3 / Control for write = 2
+						PortOut_4.AcyclicData006 = _DR_data[5];//Index MSB
+						PortOut_4.AcyclicData007 = _DR_data[6];//Index LSB
+						PortOut_4.AcyclicData008 = _DR_data[7];//SubIndex
+						PortOut_4.AcyclicData009 = _DR_data[8];
+						PortOut_4.AcyclicData010 = _DR_data[9];
+						PortOut_4.AcyclicData011 = _DR_data[10];
+						PortOut_4.AcyclicData012 = _DR_data[11];
+						PortOut_4.AcyclicData013 = _DR_data[12];
+						PortOut_4.AcyclicData014 = _DR_data[13];
+						PortOut_4.AcyclicData015 = _DR_data[14];
+						PortOut_4.AcyclicData016 = _DR_data[15];
+						PortOut_4.AcyclicData017 = _DR_data[16];
+						PortOut_4.AcyclicData018 = _DR_data[17];
+						PortOut_4.AcyclicData019 = _DR_data[18];
+						PortOut_4.AcyclicData020 = _DR_data[19];
+						PortOut_4.AcyclicData021 = _DR_data[20];
+						PortOut_4.AcyclicData022 = _DR_data[21];
+						PortOut_4.AcyclicData023 = _DR_data[22];
+						PortOut_4.AcyclicData024 = _DR_data[23];
+						PortOut_4.AcyclicData025 = _DR_data[24];
+						PortOut_4.AcyclicData026 = _DR_data[25];
+						PortOut_4.AcyclicData027 = _DR_data[26];
+						PortOut_4.AcyclicData028 = _DR_data[27];
+						PortOut_4.AcyclicData029 = _DR_data[28];
+						PortOut_4.AcyclicData030 = _DR_data[29];
+						PortOut_4.AcyclicData031 = _DR_data[30];
+						PortOut_4.AcyclicData032 = _DR_data[31];
+						PortOut_4.AcyclicData033 = _DR_data[32];
+						PortOut_4.AcyclicData034 = _DR_data[33];
+						PortOut_4.AcyclicData035 = _DR_data[34];
+						PortOut_4.AcyclicData036 = _DR_data[35];
+						PortOut_4.AcyclicData037 = _DR_data[36];
+						PortOut_4.AcyclicData038 = _DR_data[37];
+						PortOut_4.AcyclicData039 = _DR_data[38];
+						PortOut_4.AcyclicData040 = _DR_data[39];
+						PortOut_4.AcyclicData041 = _DR_data[40];
+						PortOut_4.AcyclicData042 = _DR_data[41];
+						PortOut_4.AcyclicData043 = _DR_data[42];
+						PortOut_4.AcyclicData044 = _DR_data[43];
+						PortOut_4.AcyclicData045 = _DR_data[44];
+						PortOut_4.AcyclicData046 = _DR_data[45];
+						PortOut_4.AcyclicData047 = _DR_data[46];
+						PortOut_4.AcyclicData048 = _DR_data[47];
+						PortOut_4.AcyclicData049 = _DR_data[48];
+						PortOut_4.AcyclicData050 = _DR_data[49];
+						PortOut_4.AcyclicData051 = _DR_data[50];
+						PortOut_4.AcyclicData052 = _DR_data[51];
+						PortOut_4.AcyclicData053 = _DR_data[52];
+						PortOut_4.AcyclicData054 = _DR_data[53];
+						PortOut_4.AcyclicData055 = _DR_data[54];
+						PortOut_4.AcyclicData056 = _DR_data[55];
+						PortOut_4.AcyclicData057 = _DR_data[56];
+						PortOut_4.AcyclicData058 = _DR_data[57];
+						PortOut_4.AcyclicData059 = _DR_data[58];
+						PortOut_4.AcyclicData060 = _DR_data[59];
+						PortOut_4.AcyclicData061 = _DR_data[60];
+						PortOut_4.AcyclicData062 = _DR_data[61];
+						PortOut_4.AcyclicData063 = _DR_data[62];
+						PortOut_4.AcyclicData064 = _DR_data[63];
+						PortOut_4.AcyclicData065 = _DR_data[64];
+						PortOut_4.AcyclicData066 = _DR_data[65];
+						PortOut_4.AcyclicData067 = _DR_data[66];
+						PortOut_4.AcyclicData068 = _DR_data[67];
+						PortOut_4.AcyclicData069 = _DR_data[68];
+						PortOut_4.AcyclicData070 = _DR_data[69];
+						PortOut_4.AcyclicData071 = _DR_data[70];
+						PortOut_4.AcyclicData072 = _DR_data[71];
+						PortOut_4.AcyclicData073 = _DR_data[72];
+						PortOut_4.AcyclicData074 = _DR_data[73];
+						PortOut_4.AcyclicData075 = _DR_data[74];
+						PortOut_4.AcyclicData076 = _DR_data[75];
+						PortOut_4.AcyclicData077 = _DR_data[76];
+						PortOut_4.AcyclicData078 = _DR_data[77];
+						PortOut_4.AcyclicData079 = _DR_data[78];
+						PortOut_4.AcyclicData080 = _DR_data[79];
+						PortOut_4.AcyclicData081 = _DR_data[80];
+						PortOut_4.AcyclicData082 = _DR_data[81];
+						PortOut_4.AcyclicData083 = _DR_data[82];
+						PortOut_4.AcyclicData084 = _DR_data[83];
+						PortOut_4.AcyclicData085 = _DR_data[84];
+						PortOut_4.AcyclicData086 = _DR_data[85];
+						PortOut_4.AcyclicData087 = _DR_data[86];
+						PortOut_4.AcyclicData088 = _DR_data[87];
+						PortOut_4.AcyclicData089 = _DR_data[88];
+						PortOut_4.AcyclicData090 = _DR_data[89];
+						PortOut_4.AcyclicData091 = _DR_data[90];
+						PortOut_4.AcyclicData092 = _DR_data[91];
+						PortOut_4.AcyclicData093 = _DR_data[92];
+						PortOut_4.AcyclicData094 = _DR_data[93];
+						PortOut_4.AcyclicData095 = _DR_data[94];
+						PortOut_4.AcyclicData096 = _DR_data[95];
+						PortOut_4.AcyclicData097 = _DR_data[96];
+						PortOut_4.AcyclicData098 = _DR_data[97];
+						PortOut_4.AcyclicData099 = _DR_data[98];
+						PortOut_4.AcyclicData100 = _DR_data[99];
+						PortOut_4.AcyclicData101 = _DR_data[100];
+						PortOut_4.AcyclicData102 = _DR_data[101];
+						PortOut_4.AcyclicData103 = _DR_data[102];
+						PortOut_4.AcyclicData104 = _DR_data[103];
+						PortOut_4.AcyclicData105 = _DR_data[104];
+						PortOut_4.AcyclicData106 = _DR_data[105];
+						PortOut_4.AcyclicData107 = _DR_data[106];
+						PortOut_4.AcyclicData108 = _DR_data[107];
+						PortOut_4.AcyclicData109 = _DR_data[108];
+						PortOut_4.AcyclicData110 = _DR_data[109];
+						PortOut_4.AcyclicData111 = _DR_data[110];
+						PortOut_4.AcyclicData112 = _DR_data[111];
+						PortOut_4.AcyclicData113 = _DR_data[112];
+						PortOut_4.AcyclicData114 = _DR_data[113];
+						PortOut_4.AcyclicData115 = _DR_data[114];
+						PortOut_4.AcyclicData116 = _DR_data[115];
+						PortOut_4.AcyclicData117 = _DR_data[116];
+						PortOut_4.AcyclicData118 = _DR_data[117];
+						PortOut_4.AcyclicData119 = _DR_data[118];
+						PortOut_4.AcyclicData120 = _DR_data[119];
+						PortOut_4.AcyclicData121 = _DR_data[120];
+						PortOut_4.AcyclicData122 = _DR_data[121];
+						PortOut_4.AcyclicData123 = _DR_data[122];
+						PortOut_4.AcyclicData124 = _DR_data[123];
+						PortOut_4.AcyclicData125 = _DR_data[124];
+						PortOut_4.AcyclicData126 = _DR_data[125];
+						PortOut_4.AcyclicData127 = _DR_data[126];
+						PortOut_4.AcyclicData128 = _DR_data[127];
+						PortOut_4.AcyclicData129 = _DR_data[128];
+						PortOut_4.AcyclicData130 = _DR_data[129];
+						PortOut_4.AcyclicData131 = _DR_data[130];
+						PortOut_4.AcyclicData132 = _DR_data[131];
+						PortOut_4.AcyclicData133 = _DR_data[132];
+						PortOut_4.AcyclicData134 = _DR_data[133];
+						PortOut_4.AcyclicData135 = _DR_data[134];
+						PortOut_4.AcyclicData136 = _DR_data[135];
+						PortOut_4.AcyclicData137 = _DR_data[136];
+						PortOut_4.AcyclicData138 = _DR_data[137];
+						PortOut_4.AcyclicData139 = _DR_data[138];
+						PortOut_4.AcyclicData140 = _DR_data[139];
+						PortOut_4.AcyclicData141 = _DR_data[140];
+						PortOut_4.AcyclicData142 = _DR_data[141];
+						PortOut_4.AcyclicData143 = _DR_data[142];
+						PortOut_4.AcyclicData144 = _DR_data[143];
+						PortOut_4.AcyclicData145 = _DR_data[144];
+						PortOut_4.AcyclicData146 = _DR_data[145];
+						PortOut_4.AcyclicData147 = _DR_data[146];
+						PortOut_4.AcyclicData148 = _DR_data[147];
+						PortOut_4.AcyclicData149 = _DR_data[148];
+						PortOut_4.AcyclicData150 = _DR_data[149];
+						PortOut_4.AcyclicData151 = _DR_data[150];
+						PortOut_4.AcyclicData152 = _DR_data[151];
+						PortOut_4.AcyclicData153 = _DR_data[152];
+						PortOut_4.AcyclicData154 = _DR_data[153];
+						PortOut_4.AcyclicData155 = _DR_data[154];
+						PortOut_4.AcyclicData156 = _DR_data[155];
+						PortOut_4.AcyclicData157 = _DR_data[156];
+						PortOut_4.AcyclicData158 = _DR_data[157];
+						PortOut_4.AcyclicData159 = _DR_data[158];
+						PortOut_4.AcyclicData160 = _DR_data[159];
+						PortOut_4.AcyclicData161 = _DR_data[160];
+						PortOut_4.AcyclicData162 = _DR_data[161];
+						PortOut_4.AcyclicData163 = _DR_data[162];
+						PortOut_4.AcyclicData164 = _DR_data[163];
+						PortOut_4.AcyclicData165 = _DR_data[164];
+						PortOut_4.AcyclicData166 = _DR_data[165];
+						PortOut_4.AcyclicData167 = _DR_data[166];
+						PortOut_4.AcyclicData168 = _DR_data[167];
+						PortOut_4.AcyclicData169 = _DR_data[168];
+						PortOut_4.AcyclicData170 = _DR_data[169];
+						PortOut_4.AcyclicData171 = _DR_data[170];
+						PortOut_4.AcyclicData172 = _DR_data[171];
+						PortOut_4.AcyclicData173 = _DR_data[172];
+						PortOut_4.AcyclicData174 = _DR_data[173];
+						PortOut_4.AcyclicData175 = _DR_data[174];
+						PortOut_4.AcyclicData176 = _DR_data[175];
+						PortOut_4.AcyclicData177 = _DR_data[176];
+						PortOut_4.AcyclicData178 = _DR_data[177];
+						PortOut_4.AcyclicData179 = _DR_data[178];
+						PortOut_4.AcyclicData180 = _DR_data[179];
+						PortOut_4.AcyclicData181 = _DR_data[180];
+						PortOut_4.AcyclicData182 = _DR_data[181];
+						PortOut_4.AcyclicData183 = _DR_data[182];
+						PortOut_4.AcyclicData184 = _DR_data[183];
+						PortOut_4.AcyclicData185 = _DR_data[184];
+						PortOut_4.AcyclicData186 = _DR_data[185];
+						PortOut_4.AcyclicData187 = _DR_data[186];
+						PortOut_4.AcyclicData188 = _DR_data[187];
+						PortOut_4.AcyclicData189 = _DR_data[188];
+						PortOut_4.AcyclicData190 = _DR_data[189];
+						PortOut_4.AcyclicData191 = _DR_data[190];
+						PortOut_4.AcyclicData192 = _DR_data[191];
+						PortOut_4.AcyclicData193 = _DR_data[192];
+						PortOut_4.AcyclicData194 = _DR_data[193];
+						PortOut_4.AcyclicData195 = _DR_data[194];
+						PortOut_4.AcyclicData196 = _DR_data[195];
+						PortOut_4.AcyclicData197 = _DR_data[196];
+						PortOut_4.AcyclicData198 = _DR_data[197];
+						PortOut_4.AcyclicData199 = _DR_data[198];
+						PortOut_4.AcyclicData200 = _DR_data[199];
+						PortOut_4.AcyclicData201 = _DR_data[200];
+						PortOut_4.AcyclicData202 = _DR_data[201];
+						PortOut_4.AcyclicData203 = _DR_data[202];
+						PortOut_4.AcyclicData204 = _DR_data[203];
+						PortOut_4.AcyclicData205 = _DR_data[204];
+						PortOut_4.AcyclicData206 = _DR_data[205];
+						PortOut_4.AcyclicData207 = _DR_data[206];
+						PortOut_4.AcyclicData208 = _DR_data[207];
+						PortOut_4.AcyclicData209 = _DR_data[208];
+						PortOut_4.AcyclicData210 = _DR_data[209];
+						PortOut_4.AcyclicData211 = _DR_data[210];
+						PortOut_4.AcyclicData212 = _DR_data[211];
+						PortOut_4.AcyclicData213 = _DR_data[212];
+						PortOut_4.AcyclicData214 = _DR_data[213];
+						PortOut_4.AcyclicData215 = _DR_data[214];
+						PortOut_4.AcyclicData216 = _DR_data[215];
+						PortOut_4.AcyclicData217 = _DR_data[216];
+						PortOut_4.AcyclicData218 = _DR_data[217];
+						PortOut_4.AcyclicData219 = _DR_data[218];
+						PortOut_4.AcyclicData220 = _DR_data[219];
+						PortOut_4.AcyclicData221 = _DR_data[220];
+						PortOut_4.AcyclicData222 = _DR_data[221];
+						PortOut_4.AcyclicData223 = _DR_data[222];
+						PortOut_4.AcyclicData224 = _DR_data[223];
+						PortOut_4.AcyclicData225 = _DR_data[224];
+						PortOut_4.AcyclicData226 = _DR_data[225];
+						PortOut_4.AcyclicData227 = _DR_data[226];
+						PortOut_4.AcyclicData228 = _DR_data[227];
+						PortOut_4.AcyclicData229 = _DR_data[228];
+						PortOut_4.AcyclicData230 = _DR_data[229];
+						PortOut_4.AcyclicData231 = _DR_data[230];
+						PortOut_4.AcyclicData232 = _DR_data[231];
+						PortOut_4.AcyclicData233 = _DR_data[232];
+						PortOut_4.AcyclicData234 = _DR_data[233];
+						PortOut_4.AcyclicData235 = _DR_data[234];
+						PortOut_4.AcyclicData236 = _DR_data[235];
+						PortOut_4.AcyclicData237 = _DR_data[236];
+						PortOut_4.AcyclicData238 = _DR_data[237];
+						PortOut_4.AcyclicData239 = _DR_data[238];
+						PortOut_4.AcyclicData240 = _DR_data[239];
+					break;
+					default:
+					//           _DR_result = 0x80B0;
+					return;
+				}
+			}//_DR_data[1]!=0 end
+		}
+
+		Result = _DR_length;
+		_DR_result = _DR_length;
+	}
+
+	@ZCounter = ZCounter + 1;
+	Counter  = ZCounter;
+	Length = _DR_length;
+	//Device DataSet227 WRREC end
+END_HANDLER
+//-----------------------------------------------------------------------------------------------------------
+RDREC_HANDLER ( Unit, 227)
+	//Device DataSet227 RDREC begin
+	// RDREC in PLC: reads data record master device -> PLC
+	// Selection of possible return values :
+	// ----------------------------------------- 
+	// NO_ERROR : 0x0000
+	// ERROR_RECORD_NOT_PERMITTED : 0x80B0 // The data records 0, 1 and above 240 are not permitted for profibus 
+	// ERROR_LENGTH_INVALID : 0x80B1 // The length specified in the RECORD parameter is incorrect
+
+	// Available variables from coupling to component
+	// ------------------------------------------------
+	// integer _DR_number Data record number of the data record just read
+	// integer _DR_length Requested length of the data set just read
+
+	// Return values from component for coupling
+	// -----------------------------------------
+	// byte[] _DR_data Data of the data set just read
+	// integer _DR_result Return value of the component to the linkage
+
+	//DataSet = 227;
+
+	int i = 0;
+	integer IOL_Index;
+	integer IOL_Subindex;
+
+	byte VendorID_Byte11; byte VendorID_Byte12;
+	byte VendorID_Byte21; byte VendorID_Byte22;
+	byte VendorID_Byte31; byte VendorID_Byte32;
+	byte VendorID_Byte41; byte VendorID_Byte42;
+
+	byte Product_ID_Byte11; byte Product_ID_Byte12; byte Product_ID_Byte13; byte Product_ID_Byte14;
+	byte Product_ID_Byte21; byte Product_ID_Byte22; byte Product_ID_Byte23; byte Product_ID_Byte24;
+	byte Product_ID_Byte31; byte Product_ID_Byte32; byte Product_ID_Byte33; byte Product_ID_Byte34;
+	byte Product_ID_Byte41; byte Product_ID_Byte42; byte Product_ID_Byte43; byte Product_ID_Byte44;
+
+	bool Marker = False;
+
+//	if (DataRecordNumber < 0)
+//	{
+//		_DR_result = 0x80B0; // ERROR_RECORD_NOT_PERMITTED
+//		Result =  0x80B0;	
+//		return;
+//	}
+
+	Length = _DR_length;
+	@ZCounter = ZCounter + 1;
+	Counter = ZCounter;
+
+	if (_DR_length > 240)
+	{
+		_DR_result = 0x80B1; // ERROR_LENGTH_INVALID
+		Result =  0x80B1;
+	}
+	else
+	{
+
+//		integer waitingTime = 0;
+//		byte TempParameter227_In[240];
+		//@TempParameters227[0-7] header information of the Master. the PLC will not show it
+		if(TempParameters227[1] != 0)
+		{//_DR_data[1]!=0 begin
+			switch (TempParameters227[1])
+			{
+				case 1: //Port 1
+					_DR_data[0] = _trunc2byte(PortIn_1.AcyclicData001);
+					_DR_data[1] = _trunc2byte(PortIn_1.AcyclicData002);
+					_DR_data[2] = _trunc2byte(PortIn_1.AcyclicData003);
+					_DR_data[3] = _trunc2byte(PortIn_1.AcyclicData004);
+					_DR_data[4] = _trunc2byte(PortIn_1.AcyclicData005);
+					_DR_data[5] = _trunc2byte(PortIn_1.AcyclicData006);
+					_DR_data[6] = _trunc2byte(PortIn_1.AcyclicData007);
+					_DR_data[7] = _trunc2byte(PortIn_1.AcyclicData008);
+					_DR_data[8] = _trunc2byte(PortIn_1.AcyclicData009);
+					_DR_data[9] = _trunc2byte(PortIn_1.AcyclicData010);
+					_DR_data[10] = _trunc2byte(PortIn_1.AcyclicData011);
+					_DR_data[11] = _trunc2byte(PortIn_1.AcyclicData012);
+					_DR_data[12] = _trunc2byte(PortIn_1.AcyclicData013);
+					_DR_data[13] = _trunc2byte(PortIn_1.AcyclicData014);
+					_DR_data[14] = _trunc2byte(PortIn_1.AcyclicData015);
+					_DR_data[15] = _trunc2byte(PortIn_1.AcyclicData016);
+					_DR_data[16] = _trunc2byte(PortIn_1.AcyclicData017);
+					_DR_data[17] = _trunc2byte(PortIn_1.AcyclicData018);
+					_DR_data[18] = _trunc2byte(PortIn_1.AcyclicData019);
+					_DR_data[19] = _trunc2byte(PortIn_1.AcyclicData020);
+					_DR_data[20] = _trunc2byte(PortIn_1.AcyclicData021);
+					_DR_data[21] = _trunc2byte(PortIn_1.AcyclicData022);
+					_DR_data[22] = _trunc2byte(PortIn_1.AcyclicData023);
+					_DR_data[23] = _trunc2byte(PortIn_1.AcyclicData024);
+					_DR_data[24] = _trunc2byte(PortIn_1.AcyclicData025);
+					_DR_data[25] = _trunc2byte(PortIn_1.AcyclicData026);
+					_DR_data[26] = _trunc2byte(PortIn_1.AcyclicData027);
+					_DR_data[27] = _trunc2byte(PortIn_1.AcyclicData028);
+					_DR_data[28] = _trunc2byte(PortIn_1.AcyclicData029);
+					_DR_data[29] = _trunc2byte(PortIn_1.AcyclicData030);
+					_DR_data[30] = _trunc2byte(PortIn_1.AcyclicData031);
+					_DR_data[31] = _trunc2byte(PortIn_1.AcyclicData032);
+					_DR_data[32] = _trunc2byte(PortIn_1.AcyclicData033);
+					_DR_data[33] = _trunc2byte(PortIn_1.AcyclicData034);
+					_DR_data[34] = _trunc2byte(PortIn_1.AcyclicData035);
+					_DR_data[35] = _trunc2byte(PortIn_1.AcyclicData036);
+					_DR_data[36] = _trunc2byte(PortIn_1.AcyclicData037);
+					_DR_data[37] = _trunc2byte(PortIn_1.AcyclicData038);
+					_DR_data[38] = _trunc2byte(PortIn_1.AcyclicData039);
+					_DR_data[39] = _trunc2byte(PortIn_1.AcyclicData040);
+					_DR_data[40] = _trunc2byte(PortIn_1.AcyclicData041);
+					_DR_data[41] = _trunc2byte(PortIn_1.AcyclicData042);
+					_DR_data[42] = _trunc2byte(PortIn_1.AcyclicData043);
+					_DR_data[43] = _trunc2byte(PortIn_1.AcyclicData044);
+					_DR_data[44] = _trunc2byte(PortIn_1.AcyclicData045);
+					_DR_data[45] = _trunc2byte(PortIn_1.AcyclicData046);
+					_DR_data[46] = _trunc2byte(PortIn_1.AcyclicData047);
+					_DR_data[47] = _trunc2byte(PortIn_1.AcyclicData048);
+					_DR_data[48] = _trunc2byte(PortIn_1.AcyclicData049);
+					_DR_data[49] = _trunc2byte(PortIn_1.AcyclicData050);
+					_DR_data[50] = _trunc2byte(PortIn_1.AcyclicData051);
+					_DR_data[51] = _trunc2byte(PortIn_1.AcyclicData052);
+					_DR_data[52] = _trunc2byte(PortIn_1.AcyclicData053);
+					_DR_data[53] = _trunc2byte(PortIn_1.AcyclicData054);
+					_DR_data[54] = _trunc2byte(PortIn_1.AcyclicData055);
+					_DR_data[55] = _trunc2byte(PortIn_1.AcyclicData056);
+					_DR_data[56] = _trunc2byte(PortIn_1.AcyclicData057);
+					_DR_data[57] = _trunc2byte(PortIn_1.AcyclicData058);
+					_DR_data[58] = _trunc2byte(PortIn_1.AcyclicData059);
+					_DR_data[59] = _trunc2byte(PortIn_1.AcyclicData060);
+					_DR_data[60] = _trunc2byte(PortIn_1.AcyclicData061);
+					_DR_data[61] = _trunc2byte(PortIn_1.AcyclicData062);
+					_DR_data[62] = _trunc2byte(PortIn_1.AcyclicData063);
+					_DR_data[63] = _trunc2byte(PortIn_1.AcyclicData064);
+					_DR_data[64] = _trunc2byte(PortIn_1.AcyclicData065);
+					_DR_data[65] = _trunc2byte(PortIn_1.AcyclicData066);
+					_DR_data[66] = _trunc2byte(PortIn_1.AcyclicData067);
+					_DR_data[67] = _trunc2byte(PortIn_1.AcyclicData068);
+					_DR_data[68] = _trunc2byte(PortIn_1.AcyclicData069);
+					_DR_data[69] = _trunc2byte(PortIn_1.AcyclicData070);
+					_DR_data[70] = _trunc2byte(PortIn_1.AcyclicData071);
+					_DR_data[71] = _trunc2byte(PortIn_1.AcyclicData072);
+					_DR_data[72] = _trunc2byte(PortIn_1.AcyclicData073);
+					_DR_data[73] = _trunc2byte(PortIn_1.AcyclicData074);
+					_DR_data[74] = _trunc2byte(PortIn_1.AcyclicData075);
+					_DR_data[75] = _trunc2byte(PortIn_1.AcyclicData076);
+					_DR_data[76] = _trunc2byte(PortIn_1.AcyclicData077);
+					_DR_data[77] = _trunc2byte(PortIn_1.AcyclicData078);
+					_DR_data[78] = _trunc2byte(PortIn_1.AcyclicData079);
+					_DR_data[79] = _trunc2byte(PortIn_1.AcyclicData080);
+					_DR_data[80] = _trunc2byte(PortIn_1.AcyclicData081);
+					_DR_data[81] = _trunc2byte(PortIn_1.AcyclicData082);
+					_DR_data[82] = _trunc2byte(PortIn_1.AcyclicData083);
+					_DR_data[83] = _trunc2byte(PortIn_1.AcyclicData084);
+					_DR_data[84] = _trunc2byte(PortIn_1.AcyclicData085);
+					_DR_data[85] = _trunc2byte(PortIn_1.AcyclicData086);
+					_DR_data[86] = _trunc2byte(PortIn_1.AcyclicData087);
+					_DR_data[87] = _trunc2byte(PortIn_1.AcyclicData088);
+					_DR_data[88] = _trunc2byte(PortIn_1.AcyclicData089);
+					_DR_data[89] = _trunc2byte(PortIn_1.AcyclicData090);
+					_DR_data[90] = _trunc2byte(PortIn_1.AcyclicData091);
+					_DR_data[91] = _trunc2byte(PortIn_1.AcyclicData092);
+					_DR_data[92] = _trunc2byte(PortIn_1.AcyclicData093);
+					_DR_data[93] = _trunc2byte(PortIn_1.AcyclicData094);
+					_DR_data[94] = _trunc2byte(PortIn_1.AcyclicData095);
+					_DR_data[95] = _trunc2byte(PortIn_1.AcyclicData096);
+					_DR_data[96] = _trunc2byte(PortIn_1.AcyclicData097);
+					_DR_data[97] = _trunc2byte(PortIn_1.AcyclicData098);
+					_DR_data[98] = _trunc2byte(PortIn_1.AcyclicData099);
+					_DR_data[99] = _trunc2byte(PortIn_1.AcyclicData100);
+					_DR_data[100] = _trunc2byte(PortIn_1.AcyclicData101);
+					_DR_data[101] = _trunc2byte(PortIn_1.AcyclicData102);
+					_DR_data[102] = _trunc2byte(PortIn_1.AcyclicData103);
+					_DR_data[103] = _trunc2byte(PortIn_1.AcyclicData104);
+					_DR_data[104] = _trunc2byte(PortIn_1.AcyclicData105);
+					_DR_data[105] = _trunc2byte(PortIn_1.AcyclicData106);
+					_DR_data[106] = _trunc2byte(PortIn_1.AcyclicData107);
+					_DR_data[107] = _trunc2byte(PortIn_1.AcyclicData108);
+					_DR_data[108] = _trunc2byte(PortIn_1.AcyclicData109);
+					_DR_data[109] = _trunc2byte(PortIn_1.AcyclicData110);
+					_DR_data[110] = _trunc2byte(PortIn_1.AcyclicData111);
+					_DR_data[111] = _trunc2byte(PortIn_1.AcyclicData112);
+					_DR_data[112] = _trunc2byte(PortIn_1.AcyclicData113);
+					_DR_data[113] = _trunc2byte(PortIn_1.AcyclicData114);
+					_DR_data[114] = _trunc2byte(PortIn_1.AcyclicData115);
+					_DR_data[115] = _trunc2byte(PortIn_1.AcyclicData116);
+					_DR_data[116] = _trunc2byte(PortIn_1.AcyclicData117);
+					_DR_data[117] = _trunc2byte(PortIn_1.AcyclicData118);
+					_DR_data[118] = _trunc2byte(PortIn_1.AcyclicData119);
+					_DR_data[119] = _trunc2byte(PortIn_1.AcyclicData120);
+					_DR_data[120] = _trunc2byte(PortIn_1.AcyclicData121);
+					_DR_data[121] = _trunc2byte(PortIn_1.AcyclicData122);
+					_DR_data[122] = _trunc2byte(PortIn_1.AcyclicData123);
+					_DR_data[123] = _trunc2byte(PortIn_1.AcyclicData124);
+					_DR_data[124] = _trunc2byte(PortIn_1.AcyclicData125);
+					_DR_data[125] = _trunc2byte(PortIn_1.AcyclicData126);
+					_DR_data[126] = _trunc2byte(PortIn_1.AcyclicData127);
+					_DR_data[127] = _trunc2byte(PortIn_1.AcyclicData128);
+					_DR_data[128] = _trunc2byte(PortIn_1.AcyclicData129);
+					_DR_data[129] = _trunc2byte(PortIn_1.AcyclicData130);
+					_DR_data[130] = _trunc2byte(PortIn_1.AcyclicData131);
+					_DR_data[131] = _trunc2byte(PortIn_1.AcyclicData132);
+					_DR_data[132] = _trunc2byte(PortIn_1.AcyclicData133);
+					_DR_data[133] = _trunc2byte(PortIn_1.AcyclicData134);
+					_DR_data[134] = _trunc2byte(PortIn_1.AcyclicData135);
+					_DR_data[135] = _trunc2byte(PortIn_1.AcyclicData136);
+					_DR_data[136] = _trunc2byte(PortIn_1.AcyclicData137);
+					_DR_data[137] = _trunc2byte(PortIn_1.AcyclicData138);
+					_DR_data[138] = _trunc2byte(PortIn_1.AcyclicData139);
+					_DR_data[139] = _trunc2byte(PortIn_1.AcyclicData140);
+					_DR_data[140] = _trunc2byte(PortIn_1.AcyclicData141);
+					_DR_data[141] = _trunc2byte(PortIn_1.AcyclicData142);
+					_DR_data[142] = _trunc2byte(PortIn_1.AcyclicData143);
+					_DR_data[143] = _trunc2byte(PortIn_1.AcyclicData144);
+					_DR_data[144] = _trunc2byte(PortIn_1.AcyclicData145);
+					_DR_data[145] = _trunc2byte(PortIn_1.AcyclicData146);
+					_DR_data[146] = _trunc2byte(PortIn_1.AcyclicData147);
+					_DR_data[147] = _trunc2byte(PortIn_1.AcyclicData148);
+					_DR_data[148] = _trunc2byte(PortIn_1.AcyclicData149);
+					_DR_data[149] = _trunc2byte(PortIn_1.AcyclicData150);
+					_DR_data[150] = _trunc2byte(PortIn_1.AcyclicData151);
+					_DR_data[151] = _trunc2byte(PortIn_1.AcyclicData152);
+					_DR_data[152] = _trunc2byte(PortIn_1.AcyclicData153);
+					_DR_data[153] = _trunc2byte(PortIn_1.AcyclicData154);
+					_DR_data[154] = _trunc2byte(PortIn_1.AcyclicData155);
+					_DR_data[155] = _trunc2byte(PortIn_1.AcyclicData156);
+					_DR_data[156] = _trunc2byte(PortIn_1.AcyclicData157);
+					_DR_data[157] = _trunc2byte(PortIn_1.AcyclicData158);
+					_DR_data[158] = _trunc2byte(PortIn_1.AcyclicData159);
+					_DR_data[159] = _trunc2byte(PortIn_1.AcyclicData160);
+					_DR_data[160] = _trunc2byte(PortIn_1.AcyclicData161);
+					_DR_data[161] = _trunc2byte(PortIn_1.AcyclicData162);
+					_DR_data[162] = _trunc2byte(PortIn_1.AcyclicData163);
+					_DR_data[163] = _trunc2byte(PortIn_1.AcyclicData164);
+					_DR_data[164] = _trunc2byte(PortIn_1.AcyclicData165);
+					_DR_data[165] = _trunc2byte(PortIn_1.AcyclicData166);
+					_DR_data[166] = _trunc2byte(PortIn_1.AcyclicData167);
+					_DR_data[167] = _trunc2byte(PortIn_1.AcyclicData168);
+					_DR_data[168] = _trunc2byte(PortIn_1.AcyclicData169);
+					_DR_data[169] = _trunc2byte(PortIn_1.AcyclicData170);
+					_DR_data[170] = _trunc2byte(PortIn_1.AcyclicData171);
+					_DR_data[171] = _trunc2byte(PortIn_1.AcyclicData172);
+					_DR_data[172] = _trunc2byte(PortIn_1.AcyclicData173);
+					_DR_data[173] = _trunc2byte(PortIn_1.AcyclicData174);
+					_DR_data[174] = _trunc2byte(PortIn_1.AcyclicData175);
+					_DR_data[175] = _trunc2byte(PortIn_1.AcyclicData176);
+					_DR_data[176] = _trunc2byte(PortIn_1.AcyclicData177);
+					_DR_data[177] = _trunc2byte(PortIn_1.AcyclicData178);
+					_DR_data[178] = _trunc2byte(PortIn_1.AcyclicData179);
+					_DR_data[179] = _trunc2byte(PortIn_1.AcyclicData180);
+					_DR_data[180] = _trunc2byte(PortIn_1.AcyclicData181);
+					_DR_data[181] = _trunc2byte(PortIn_1.AcyclicData182);
+					_DR_data[182] = _trunc2byte(PortIn_1.AcyclicData183);
+					_DR_data[183] = _trunc2byte(PortIn_1.AcyclicData184);
+					_DR_data[184] = _trunc2byte(PortIn_1.AcyclicData185);
+					_DR_data[185] = _trunc2byte(PortIn_1.AcyclicData186);
+					_DR_data[186] = _trunc2byte(PortIn_1.AcyclicData187);
+					_DR_data[187] = _trunc2byte(PortIn_1.AcyclicData188);
+					_DR_data[188] = _trunc2byte(PortIn_1.AcyclicData189);
+					_DR_data[189] = _trunc2byte(PortIn_1.AcyclicData190);
+					_DR_data[190] = _trunc2byte(PortIn_1.AcyclicData191);
+					_DR_data[191] = _trunc2byte(PortIn_1.AcyclicData192);
+					_DR_data[192] = _trunc2byte(PortIn_1.AcyclicData193);
+					_DR_data[193] = _trunc2byte(PortIn_1.AcyclicData194);
+					_DR_data[194] = _trunc2byte(PortIn_1.AcyclicData195);
+					_DR_data[195] = _trunc2byte(PortIn_1.AcyclicData196);
+					_DR_data[196] = _trunc2byte(PortIn_1.AcyclicData197);
+					_DR_data[197] = _trunc2byte(PortIn_1.AcyclicData198);
+					_DR_data[198] = _trunc2byte(PortIn_1.AcyclicData199);
+					_DR_data[199] = _trunc2byte(PortIn_1.AcyclicData200);
+					_DR_data[200] = _trunc2byte(PortIn_1.AcyclicData201);
+					_DR_data[201] = _trunc2byte(PortIn_1.AcyclicData202);
+					_DR_data[202] = _trunc2byte(PortIn_1.AcyclicData203);
+					_DR_data[203] = _trunc2byte(PortIn_1.AcyclicData204);
+					_DR_data[204] = _trunc2byte(PortIn_1.AcyclicData205);
+					_DR_data[205] = _trunc2byte(PortIn_1.AcyclicData206);
+					_DR_data[206] = _trunc2byte(PortIn_1.AcyclicData207);
+					_DR_data[207] = _trunc2byte(PortIn_1.AcyclicData208);
+					_DR_data[208] = _trunc2byte(PortIn_1.AcyclicData209);
+					_DR_data[209] = _trunc2byte(PortIn_1.AcyclicData210);
+					_DR_data[210] = _trunc2byte(PortIn_1.AcyclicData211);
+					_DR_data[211] = _trunc2byte(PortIn_1.AcyclicData212);
+					_DR_data[212] = _trunc2byte(PortIn_1.AcyclicData213);
+					_DR_data[213] = _trunc2byte(PortIn_1.AcyclicData214);
+					_DR_data[214] = _trunc2byte(PortIn_1.AcyclicData215);
+					_DR_data[215] = _trunc2byte(PortIn_1.AcyclicData216);
+					_DR_data[216] = _trunc2byte(PortIn_1.AcyclicData217);
+					_DR_data[217] = _trunc2byte(PortIn_1.AcyclicData218);
+					_DR_data[218] = _trunc2byte(PortIn_1.AcyclicData219);
+					_DR_data[219] = _trunc2byte(PortIn_1.AcyclicData220);
+					_DR_data[220] = _trunc2byte(PortIn_1.AcyclicData221);
+					_DR_data[221] = _trunc2byte(PortIn_1.AcyclicData222);
+					_DR_data[222] = _trunc2byte(PortIn_1.AcyclicData223);
+					_DR_data[223] = _trunc2byte(PortIn_1.AcyclicData224);
+					_DR_data[224] = _trunc2byte(PortIn_1.AcyclicData225);
+					_DR_data[225] = _trunc2byte(PortIn_1.AcyclicData226);
+					_DR_data[226] = _trunc2byte(PortIn_1.AcyclicData227);
+					_DR_data[227] = _trunc2byte(PortIn_1.AcyclicData228);
+					_DR_data[228] = _trunc2byte(PortIn_1.AcyclicData229);
+					_DR_data[229] = _trunc2byte(PortIn_1.AcyclicData230);
+					_DR_data[230] = _trunc2byte(PortIn_1.AcyclicData231);
+					_DR_data[231] = _trunc2byte(PortIn_1.AcyclicData232);
+					_DR_data[232] = _trunc2byte(PortIn_1.AcyclicData233);
+					_DR_data[233] = _trunc2byte(PortIn_1.AcyclicData234);
+					_DR_data[234] = _trunc2byte(PortIn_1.AcyclicData235);
+					_DR_data[235] = _trunc2byte(PortIn_1.AcyclicData236);
+					_DR_data[236] = _trunc2byte(PortIn_1.AcyclicData237);
+					_DR_data[237] = _trunc2byte(PortIn_1.AcyclicData238);
+					_DR_data[238] = _trunc2byte(PortIn_1.AcyclicData239);
+					_DR_data[239] = _trunc2byte(PortIn_1.AcyclicData240);
+				break;
+				case 2: //Port 2
+					_DR_data[0] = _trunc2byte(PortIn_2.AcyclicData001);
+					_DR_data[1] = _trunc2byte(PortIn_2.AcyclicData002);
+					_DR_data[2] = _trunc2byte(PortIn_2.AcyclicData003);
+					_DR_data[3] = _trunc2byte(PortIn_2.AcyclicData004);
+					_DR_data[4] = _trunc2byte(PortIn_2.AcyclicData005);
+					_DR_data[5] = _trunc2byte(PortIn_2.AcyclicData006);
+					_DR_data[6] = _trunc2byte(PortIn_2.AcyclicData007);
+					_DR_data[7] = _trunc2byte(PortIn_2.AcyclicData008);
+					_DR_data[8] = _trunc2byte(PortIn_2.AcyclicData009);
+					_DR_data[9] = _trunc2byte(PortIn_2.AcyclicData010);
+					_DR_data[10] = _trunc2byte(PortIn_2.AcyclicData011);
+					_DR_data[11] = _trunc2byte(PortIn_2.AcyclicData012);
+					_DR_data[12] = _trunc2byte(PortIn_2.AcyclicData013);
+					_DR_data[13] = _trunc2byte(PortIn_2.AcyclicData014);
+					_DR_data[14] = _trunc2byte(PortIn_2.AcyclicData015);
+					_DR_data[15] = _trunc2byte(PortIn_2.AcyclicData016);
+					_DR_data[16] = _trunc2byte(PortIn_2.AcyclicData017);
+					_DR_data[17] = _trunc2byte(PortIn_2.AcyclicData018);
+					_DR_data[18] = _trunc2byte(PortIn_2.AcyclicData019);
+					_DR_data[19] = _trunc2byte(PortIn_2.AcyclicData020);
+					_DR_data[20] = _trunc2byte(PortIn_2.AcyclicData021);
+					_DR_data[21] = _trunc2byte(PortIn_2.AcyclicData022);
+					_DR_data[22] = _trunc2byte(PortIn_2.AcyclicData023);
+					_DR_data[23] = _trunc2byte(PortIn_2.AcyclicData024);
+					_DR_data[24] = _trunc2byte(PortIn_2.AcyclicData025);
+					_DR_data[25] = _trunc2byte(PortIn_2.AcyclicData026);
+					_DR_data[26] = _trunc2byte(PortIn_2.AcyclicData027);
+					_DR_data[27] = _trunc2byte(PortIn_2.AcyclicData028);
+					_DR_data[28] = _trunc2byte(PortIn_2.AcyclicData029);
+					_DR_data[29] = _trunc2byte(PortIn_2.AcyclicData030);
+					_DR_data[30] = _trunc2byte(PortIn_2.AcyclicData031);
+					_DR_data[31] = _trunc2byte(PortIn_2.AcyclicData032);
+					_DR_data[32] = _trunc2byte(PortIn_2.AcyclicData033);
+					_DR_data[33] = _trunc2byte(PortIn_2.AcyclicData034);
+					_DR_data[34] = _trunc2byte(PortIn_2.AcyclicData035);
+					_DR_data[35] = _trunc2byte(PortIn_2.AcyclicData036);
+					_DR_data[36] = _trunc2byte(PortIn_2.AcyclicData037);
+					_DR_data[37] = _trunc2byte(PortIn_2.AcyclicData038);
+					_DR_data[38] = _trunc2byte(PortIn_2.AcyclicData039);
+					_DR_data[39] = _trunc2byte(PortIn_2.AcyclicData040);
+					_DR_data[40] = _trunc2byte(PortIn_2.AcyclicData041);
+					_DR_data[41] = _trunc2byte(PortIn_2.AcyclicData042);
+					_DR_data[42] = _trunc2byte(PortIn_2.AcyclicData043);
+					_DR_data[43] = _trunc2byte(PortIn_2.AcyclicData044);
+					_DR_data[44] = _trunc2byte(PortIn_2.AcyclicData045);
+					_DR_data[45] = _trunc2byte(PortIn_2.AcyclicData046);
+					_DR_data[46] = _trunc2byte(PortIn_2.AcyclicData047);
+					_DR_data[47] = _trunc2byte(PortIn_2.AcyclicData048);
+					_DR_data[48] = _trunc2byte(PortIn_2.AcyclicData049);
+					_DR_data[49] = _trunc2byte(PortIn_2.AcyclicData050);
+					_DR_data[50] = _trunc2byte(PortIn_2.AcyclicData051);
+					_DR_data[51] = _trunc2byte(PortIn_2.AcyclicData052);
+					_DR_data[52] = _trunc2byte(PortIn_2.AcyclicData053);
+					_DR_data[53] = _trunc2byte(PortIn_2.AcyclicData054);
+					_DR_data[54] = _trunc2byte(PortIn_2.AcyclicData055);
+					_DR_data[55] = _trunc2byte(PortIn_2.AcyclicData056);
+					_DR_data[56] = _trunc2byte(PortIn_2.AcyclicData057);
+					_DR_data[57] = _trunc2byte(PortIn_2.AcyclicData058);
+					_DR_data[58] = _trunc2byte(PortIn_2.AcyclicData059);
+					_DR_data[59] = _trunc2byte(PortIn_2.AcyclicData060);
+					_DR_data[60] = _trunc2byte(PortIn_2.AcyclicData061);
+					_DR_data[61] = _trunc2byte(PortIn_2.AcyclicData062);
+					_DR_data[62] = _trunc2byte(PortIn_2.AcyclicData063);
+					_DR_data[63] = _trunc2byte(PortIn_2.AcyclicData064);
+					_DR_data[64] = _trunc2byte(PortIn_2.AcyclicData065);
+					_DR_data[65] = _trunc2byte(PortIn_2.AcyclicData066);
+					_DR_data[66] = _trunc2byte(PortIn_2.AcyclicData067);
+					_DR_data[67] = _trunc2byte(PortIn_2.AcyclicData068);
+					_DR_data[68] = _trunc2byte(PortIn_2.AcyclicData069);
+					_DR_data[69] = _trunc2byte(PortIn_2.AcyclicData070);
+					_DR_data[70] = _trunc2byte(PortIn_2.AcyclicData071);
+					_DR_data[71] = _trunc2byte(PortIn_2.AcyclicData072);
+					_DR_data[72] = _trunc2byte(PortIn_2.AcyclicData073);
+					_DR_data[73] = _trunc2byte(PortIn_2.AcyclicData074);
+					_DR_data[74] = _trunc2byte(PortIn_2.AcyclicData075);
+					_DR_data[75] = _trunc2byte(PortIn_2.AcyclicData076);
+					_DR_data[76] = _trunc2byte(PortIn_2.AcyclicData077);
+					_DR_data[77] = _trunc2byte(PortIn_2.AcyclicData078);
+					_DR_data[78] = _trunc2byte(PortIn_2.AcyclicData079);
+					_DR_data[79] = _trunc2byte(PortIn_2.AcyclicData080);
+					_DR_data[80] = _trunc2byte(PortIn_2.AcyclicData081);
+					_DR_data[81] = _trunc2byte(PortIn_2.AcyclicData082);
+					_DR_data[82] = _trunc2byte(PortIn_2.AcyclicData083);
+					_DR_data[83] = _trunc2byte(PortIn_2.AcyclicData084);
+					_DR_data[84] = _trunc2byte(PortIn_2.AcyclicData085);
+					_DR_data[85] = _trunc2byte(PortIn_2.AcyclicData086);
+					_DR_data[86] = _trunc2byte(PortIn_2.AcyclicData087);
+					_DR_data[87] = _trunc2byte(PortIn_2.AcyclicData088);
+					_DR_data[88] = _trunc2byte(PortIn_2.AcyclicData089);
+					_DR_data[89] = _trunc2byte(PortIn_2.AcyclicData090);
+					_DR_data[90] = _trunc2byte(PortIn_2.AcyclicData091);
+					_DR_data[91] = _trunc2byte(PortIn_2.AcyclicData092);
+					_DR_data[92] = _trunc2byte(PortIn_2.AcyclicData093);
+					_DR_data[93] = _trunc2byte(PortIn_2.AcyclicData094);
+					_DR_data[94] = _trunc2byte(PortIn_2.AcyclicData095);
+					_DR_data[95] = _trunc2byte(PortIn_2.AcyclicData096);
+					_DR_data[96] = _trunc2byte(PortIn_2.AcyclicData097);
+					_DR_data[97] = _trunc2byte(PortIn_2.AcyclicData098);
+					_DR_data[98] = _trunc2byte(PortIn_2.AcyclicData099);
+					_DR_data[99] = _trunc2byte(PortIn_2.AcyclicData100);
+					_DR_data[100] = _trunc2byte(PortIn_2.AcyclicData101);
+					_DR_data[101] = _trunc2byte(PortIn_2.AcyclicData102);
+					_DR_data[102] = _trunc2byte(PortIn_2.AcyclicData103);
+					_DR_data[103] = _trunc2byte(PortIn_2.AcyclicData104);
+					_DR_data[104] = _trunc2byte(PortIn_2.AcyclicData105);
+					_DR_data[105] = _trunc2byte(PortIn_2.AcyclicData106);
+					_DR_data[106] = _trunc2byte(PortIn_2.AcyclicData107);
+					_DR_data[107] = _trunc2byte(PortIn_2.AcyclicData108);
+					_DR_data[108] = _trunc2byte(PortIn_2.AcyclicData109);
+					_DR_data[109] = _trunc2byte(PortIn_2.AcyclicData110);
+					_DR_data[110] = _trunc2byte(PortIn_2.AcyclicData111);
+					_DR_data[111] = _trunc2byte(PortIn_2.AcyclicData112);
+					_DR_data[112] = _trunc2byte(PortIn_2.AcyclicData113);
+					_DR_data[113] = _trunc2byte(PortIn_2.AcyclicData114);
+					_DR_data[114] = _trunc2byte(PortIn_2.AcyclicData115);
+					_DR_data[115] = _trunc2byte(PortIn_2.AcyclicData116);
+					_DR_data[116] = _trunc2byte(PortIn_2.AcyclicData117);
+					_DR_data[117] = _trunc2byte(PortIn_2.AcyclicData118);
+					_DR_data[118] = _trunc2byte(PortIn_2.AcyclicData119);
+					_DR_data[119] = _trunc2byte(PortIn_2.AcyclicData120);
+					_DR_data[120] = _trunc2byte(PortIn_2.AcyclicData121);
+					_DR_data[121] = _trunc2byte(PortIn_2.AcyclicData122);
+					_DR_data[122] = _trunc2byte(PortIn_2.AcyclicData123);
+					_DR_data[123] = _trunc2byte(PortIn_2.AcyclicData124);
+					_DR_data[124] = _trunc2byte(PortIn_2.AcyclicData125);
+					_DR_data[125] = _trunc2byte(PortIn_2.AcyclicData126);
+					_DR_data[126] = _trunc2byte(PortIn_2.AcyclicData127);
+					_DR_data[127] = _trunc2byte(PortIn_2.AcyclicData128);
+					_DR_data[128] = _trunc2byte(PortIn_2.AcyclicData129);
+					_DR_data[129] = _trunc2byte(PortIn_2.AcyclicData130);
+					_DR_data[130] = _trunc2byte(PortIn_2.AcyclicData131);
+					_DR_data[131] = _trunc2byte(PortIn_2.AcyclicData132);
+					_DR_data[132] = _trunc2byte(PortIn_2.AcyclicData133);
+					_DR_data[133] = _trunc2byte(PortIn_2.AcyclicData134);
+					_DR_data[134] = _trunc2byte(PortIn_2.AcyclicData135);
+					_DR_data[135] = _trunc2byte(PortIn_2.AcyclicData136);
+					_DR_data[136] = _trunc2byte(PortIn_2.AcyclicData137);
+					_DR_data[137] = _trunc2byte(PortIn_2.AcyclicData138);
+					_DR_data[138] = _trunc2byte(PortIn_2.AcyclicData139);
+					_DR_data[139] = _trunc2byte(PortIn_2.AcyclicData140);
+					_DR_data[140] = _trunc2byte(PortIn_2.AcyclicData141);
+					_DR_data[141] = _trunc2byte(PortIn_2.AcyclicData142);
+					_DR_data[142] = _trunc2byte(PortIn_2.AcyclicData143);
+					_DR_data[143] = _trunc2byte(PortIn_2.AcyclicData144);
+					_DR_data[144] = _trunc2byte(PortIn_2.AcyclicData145);
+					_DR_data[145] = _trunc2byte(PortIn_2.AcyclicData146);
+					_DR_data[146] = _trunc2byte(PortIn_2.AcyclicData147);
+					_DR_data[147] = _trunc2byte(PortIn_2.AcyclicData148);
+					_DR_data[148] = _trunc2byte(PortIn_2.AcyclicData149);
+					_DR_data[149] = _trunc2byte(PortIn_2.AcyclicData150);
+					_DR_data[150] = _trunc2byte(PortIn_2.AcyclicData151);
+					_DR_data[151] = _trunc2byte(PortIn_2.AcyclicData152);
+					_DR_data[152] = _trunc2byte(PortIn_2.AcyclicData153);
+					_DR_data[153] = _trunc2byte(PortIn_2.AcyclicData154);
+					_DR_data[154] = _trunc2byte(PortIn_2.AcyclicData155);
+					_DR_data[155] = _trunc2byte(PortIn_2.AcyclicData156);
+					_DR_data[156] = _trunc2byte(PortIn_2.AcyclicData157);
+					_DR_data[157] = _trunc2byte(PortIn_2.AcyclicData158);
+					_DR_data[158] = _trunc2byte(PortIn_2.AcyclicData159);
+					_DR_data[159] = _trunc2byte(PortIn_2.AcyclicData160);
+					_DR_data[160] = _trunc2byte(PortIn_2.AcyclicData161);
+					_DR_data[161] = _trunc2byte(PortIn_2.AcyclicData162);
+					_DR_data[162] = _trunc2byte(PortIn_2.AcyclicData163);
+					_DR_data[163] = _trunc2byte(PortIn_2.AcyclicData164);
+					_DR_data[164] = _trunc2byte(PortIn_2.AcyclicData165);
+					_DR_data[165] = _trunc2byte(PortIn_2.AcyclicData166);
+					_DR_data[166] = _trunc2byte(PortIn_2.AcyclicData167);
+					_DR_data[167] = _trunc2byte(PortIn_2.AcyclicData168);
+					_DR_data[168] = _trunc2byte(PortIn_2.AcyclicData169);
+					_DR_data[169] = _trunc2byte(PortIn_2.AcyclicData170);
+					_DR_data[170] = _trunc2byte(PortIn_2.AcyclicData171);
+					_DR_data[171] = _trunc2byte(PortIn_2.AcyclicData172);
+					_DR_data[172] = _trunc2byte(PortIn_2.AcyclicData173);
+					_DR_data[173] = _trunc2byte(PortIn_2.AcyclicData174);
+					_DR_data[174] = _trunc2byte(PortIn_2.AcyclicData175);
+					_DR_data[175] = _trunc2byte(PortIn_2.AcyclicData176);
+					_DR_data[176] = _trunc2byte(PortIn_2.AcyclicData177);
+					_DR_data[177] = _trunc2byte(PortIn_2.AcyclicData178);
+					_DR_data[178] = _trunc2byte(PortIn_2.AcyclicData179);
+					_DR_data[179] = _trunc2byte(PortIn_2.AcyclicData180);
+					_DR_data[180] = _trunc2byte(PortIn_2.AcyclicData181);
+					_DR_data[181] = _trunc2byte(PortIn_2.AcyclicData182);
+					_DR_data[182] = _trunc2byte(PortIn_2.AcyclicData183);
+					_DR_data[183] = _trunc2byte(PortIn_2.AcyclicData184);
+					_DR_data[184] = _trunc2byte(PortIn_2.AcyclicData185);
+					_DR_data[185] = _trunc2byte(PortIn_2.AcyclicData186);
+					_DR_data[186] = _trunc2byte(PortIn_2.AcyclicData187);
+					_DR_data[187] = _trunc2byte(PortIn_2.AcyclicData188);
+					_DR_data[188] = _trunc2byte(PortIn_2.AcyclicData189);
+					_DR_data[189] = _trunc2byte(PortIn_2.AcyclicData190);
+					_DR_data[190] = _trunc2byte(PortIn_2.AcyclicData191);
+					_DR_data[191] = _trunc2byte(PortIn_2.AcyclicData192);
+					_DR_data[192] = _trunc2byte(PortIn_2.AcyclicData193);
+					_DR_data[193] = _trunc2byte(PortIn_2.AcyclicData194);
+					_DR_data[194] = _trunc2byte(PortIn_2.AcyclicData195);
+					_DR_data[195] = _trunc2byte(PortIn_2.AcyclicData196);
+					_DR_data[196] = _trunc2byte(PortIn_2.AcyclicData197);
+					_DR_data[197] = _trunc2byte(PortIn_2.AcyclicData198);
+					_DR_data[198] = _trunc2byte(PortIn_2.AcyclicData199);
+					_DR_data[199] = _trunc2byte(PortIn_2.AcyclicData200);
+					_DR_data[200] = _trunc2byte(PortIn_2.AcyclicData201);
+					_DR_data[201] = _trunc2byte(PortIn_2.AcyclicData202);
+					_DR_data[202] = _trunc2byte(PortIn_2.AcyclicData203);
+					_DR_data[203] = _trunc2byte(PortIn_2.AcyclicData204);
+					_DR_data[204] = _trunc2byte(PortIn_2.AcyclicData205);
+					_DR_data[205] = _trunc2byte(PortIn_2.AcyclicData206);
+					_DR_data[206] = _trunc2byte(PortIn_2.AcyclicData207);
+					_DR_data[207] = _trunc2byte(PortIn_2.AcyclicData208);
+					_DR_data[208] = _trunc2byte(PortIn_2.AcyclicData209);
+					_DR_data[209] = _trunc2byte(PortIn_2.AcyclicData210);
+					_DR_data[210] = _trunc2byte(PortIn_2.AcyclicData211);
+					_DR_data[211] = _trunc2byte(PortIn_2.AcyclicData212);
+					_DR_data[212] = _trunc2byte(PortIn_2.AcyclicData213);
+					_DR_data[213] = _trunc2byte(PortIn_2.AcyclicData214);
+					_DR_data[214] = _trunc2byte(PortIn_2.AcyclicData215);
+					_DR_data[215] = _trunc2byte(PortIn_2.AcyclicData216);
+					_DR_data[216] = _trunc2byte(PortIn_2.AcyclicData217);
+					_DR_data[217] = _trunc2byte(PortIn_2.AcyclicData218);
+					_DR_data[218] = _trunc2byte(PortIn_2.AcyclicData219);
+					_DR_data[219] = _trunc2byte(PortIn_2.AcyclicData220);
+					_DR_data[220] = _trunc2byte(PortIn_2.AcyclicData221);
+					_DR_data[221] = _trunc2byte(PortIn_2.AcyclicData222);
+					_DR_data[222] = _trunc2byte(PortIn_2.AcyclicData223);
+					_DR_data[223] = _trunc2byte(PortIn_2.AcyclicData224);
+					_DR_data[224] = _trunc2byte(PortIn_2.AcyclicData225);
+					_DR_data[225] = _trunc2byte(PortIn_2.AcyclicData226);
+					_DR_data[226] = _trunc2byte(PortIn_2.AcyclicData227);
+					_DR_data[227] = _trunc2byte(PortIn_2.AcyclicData228);
+					_DR_data[228] = _trunc2byte(PortIn_2.AcyclicData229);
+					_DR_data[229] = _trunc2byte(PortIn_2.AcyclicData230);
+					_DR_data[230] = _trunc2byte(PortIn_2.AcyclicData231);
+					_DR_data[231] = _trunc2byte(PortIn_2.AcyclicData232);
+					_DR_data[232] = _trunc2byte(PortIn_2.AcyclicData233);
+					_DR_data[233] = _trunc2byte(PortIn_2.AcyclicData234);
+					_DR_data[234] = _trunc2byte(PortIn_2.AcyclicData235);
+					_DR_data[235] = _trunc2byte(PortIn_2.AcyclicData236);
+					_DR_data[236] = _trunc2byte(PortIn_2.AcyclicData237);
+					_DR_data[237] = _trunc2byte(PortIn_2.AcyclicData238);
+					_DR_data[238] = _trunc2byte(PortIn_2.AcyclicData239);
+					_DR_data[239] = _trunc2byte(PortIn_2.AcyclicData240);
+				break;
+				case 3: //Port 3
+					_DR_data[0] = _trunc2byte(PortIn_3.AcyclicData001);
+					_DR_data[1] = _trunc2byte(PortIn_3.AcyclicData002);
+					_DR_data[2] = _trunc2byte(PortIn_3.AcyclicData003);
+					_DR_data[3] = _trunc2byte(PortIn_3.AcyclicData004);
+					_DR_data[4] = _trunc2byte(PortIn_3.AcyclicData005);
+					_DR_data[5] = _trunc2byte(PortIn_3.AcyclicData006);
+					_DR_data[6] = _trunc2byte(PortIn_3.AcyclicData007);
+					_DR_data[7] = _trunc2byte(PortIn_3.AcyclicData008);
+					_DR_data[8] = _trunc2byte(PortIn_3.AcyclicData009);
+					_DR_data[9] = _trunc2byte(PortIn_3.AcyclicData010);
+					_DR_data[10] = _trunc2byte(PortIn_3.AcyclicData011);
+					_DR_data[11] = _trunc2byte(PortIn_3.AcyclicData012);
+					_DR_data[12] = _trunc2byte(PortIn_3.AcyclicData013);
+					_DR_data[13] = _trunc2byte(PortIn_3.AcyclicData014);
+					_DR_data[14] = _trunc2byte(PortIn_3.AcyclicData015);
+					_DR_data[15] = _trunc2byte(PortIn_3.AcyclicData016);
+					_DR_data[16] = _trunc2byte(PortIn_3.AcyclicData017);
+					_DR_data[17] = _trunc2byte(PortIn_3.AcyclicData018);
+					_DR_data[18] = _trunc2byte(PortIn_3.AcyclicData019);
+					_DR_data[19] = _trunc2byte(PortIn_3.AcyclicData020);
+					_DR_data[20] = _trunc2byte(PortIn_3.AcyclicData021);
+					_DR_data[21] = _trunc2byte(PortIn_3.AcyclicData022);
+					_DR_data[22] = _trunc2byte(PortIn_3.AcyclicData023);
+					_DR_data[23] = _trunc2byte(PortIn_3.AcyclicData024);
+					_DR_data[24] = _trunc2byte(PortIn_3.AcyclicData025);
+					_DR_data[25] = _trunc2byte(PortIn_3.AcyclicData026);
+					_DR_data[26] = _trunc2byte(PortIn_3.AcyclicData027);
+					_DR_data[27] = _trunc2byte(PortIn_3.AcyclicData028);
+					_DR_data[28] = _trunc2byte(PortIn_3.AcyclicData029);
+					_DR_data[29] = _trunc2byte(PortIn_3.AcyclicData030);
+					_DR_data[30] = _trunc2byte(PortIn_3.AcyclicData031);
+					_DR_data[31] = _trunc2byte(PortIn_3.AcyclicData032);
+					_DR_data[32] = _trunc2byte(PortIn_3.AcyclicData033);
+					_DR_data[33] = _trunc2byte(PortIn_3.AcyclicData034);
+					_DR_data[34] = _trunc2byte(PortIn_3.AcyclicData035);
+					_DR_data[35] = _trunc2byte(PortIn_3.AcyclicData036);
+					_DR_data[36] = _trunc2byte(PortIn_3.AcyclicData037);
+					_DR_data[37] = _trunc2byte(PortIn_3.AcyclicData038);
+					_DR_data[38] = _trunc2byte(PortIn_3.AcyclicData039);
+					_DR_data[39] = _trunc2byte(PortIn_3.AcyclicData040);
+					_DR_data[40] = _trunc2byte(PortIn_3.AcyclicData041);
+					_DR_data[41] = _trunc2byte(PortIn_3.AcyclicData042);
+					_DR_data[42] = _trunc2byte(PortIn_3.AcyclicData043);
+					_DR_data[43] = _trunc2byte(PortIn_3.AcyclicData044);
+					_DR_data[44] = _trunc2byte(PortIn_3.AcyclicData045);
+					_DR_data[45] = _trunc2byte(PortIn_3.AcyclicData046);
+					_DR_data[46] = _trunc2byte(PortIn_3.AcyclicData047);
+					_DR_data[47] = _trunc2byte(PortIn_3.AcyclicData048);
+					_DR_data[48] = _trunc2byte(PortIn_3.AcyclicData049);
+					_DR_data[49] = _trunc2byte(PortIn_3.AcyclicData050);
+					_DR_data[50] = _trunc2byte(PortIn_3.AcyclicData051);
+					_DR_data[51] = _trunc2byte(PortIn_3.AcyclicData052);
+					_DR_data[52] = _trunc2byte(PortIn_3.AcyclicData053);
+					_DR_data[53] = _trunc2byte(PortIn_3.AcyclicData054);
+					_DR_data[54] = _trunc2byte(PortIn_3.AcyclicData055);
+					_DR_data[55] = _trunc2byte(PortIn_3.AcyclicData056);
+					_DR_data[56] = _trunc2byte(PortIn_3.AcyclicData057);
+					_DR_data[57] = _trunc2byte(PortIn_3.AcyclicData058);
+					_DR_data[58] = _trunc2byte(PortIn_3.AcyclicData059);
+					_DR_data[59] = _trunc2byte(PortIn_3.AcyclicData060);
+					_DR_data[60] = _trunc2byte(PortIn_3.AcyclicData061);
+					_DR_data[61] = _trunc2byte(PortIn_3.AcyclicData062);
+					_DR_data[62] = _trunc2byte(PortIn_3.AcyclicData063);
+					_DR_data[63] = _trunc2byte(PortIn_3.AcyclicData064);
+					_DR_data[64] = _trunc2byte(PortIn_3.AcyclicData065);
+					_DR_data[65] = _trunc2byte(PortIn_3.AcyclicData066);
+					_DR_data[66] = _trunc2byte(PortIn_3.AcyclicData067);
+					_DR_data[67] = _trunc2byte(PortIn_3.AcyclicData068);
+					_DR_data[68] = _trunc2byte(PortIn_3.AcyclicData069);
+					_DR_data[69] = _trunc2byte(PortIn_3.AcyclicData070);
+					_DR_data[70] = _trunc2byte(PortIn_3.AcyclicData071);
+					_DR_data[71] = _trunc2byte(PortIn_3.AcyclicData072);
+					_DR_data[72] = _trunc2byte(PortIn_3.AcyclicData073);
+					_DR_data[73] = _trunc2byte(PortIn_3.AcyclicData074);
+					_DR_data[74] = _trunc2byte(PortIn_3.AcyclicData075);
+					_DR_data[75] = _trunc2byte(PortIn_3.AcyclicData076);
+					_DR_data[76] = _trunc2byte(PortIn_3.AcyclicData077);
+					_DR_data[77] = _trunc2byte(PortIn_3.AcyclicData078);
+					_DR_data[78] = _trunc2byte(PortIn_3.AcyclicData079);
+					_DR_data[79] = _trunc2byte(PortIn_3.AcyclicData080);
+					_DR_data[80] = _trunc2byte(PortIn_3.AcyclicData081);
+					_DR_data[81] = _trunc2byte(PortIn_3.AcyclicData082);
+					_DR_data[82] = _trunc2byte(PortIn_3.AcyclicData083);
+					_DR_data[83] = _trunc2byte(PortIn_3.AcyclicData084);
+					_DR_data[84] = _trunc2byte(PortIn_3.AcyclicData085);
+					_DR_data[85] = _trunc2byte(PortIn_3.AcyclicData086);
+					_DR_data[86] = _trunc2byte(PortIn_3.AcyclicData087);
+					_DR_data[87] = _trunc2byte(PortIn_3.AcyclicData088);
+					_DR_data[88] = _trunc2byte(PortIn_3.AcyclicData089);
+					_DR_data[89] = _trunc2byte(PortIn_3.AcyclicData090);
+					_DR_data[90] = _trunc2byte(PortIn_3.AcyclicData091);
+					_DR_data[91] = _trunc2byte(PortIn_3.AcyclicData092);
+					_DR_data[92] = _trunc2byte(PortIn_3.AcyclicData093);
+					_DR_data[93] = _trunc2byte(PortIn_3.AcyclicData094);
+					_DR_data[94] = _trunc2byte(PortIn_3.AcyclicData095);
+					_DR_data[95] = _trunc2byte(PortIn_3.AcyclicData096);
+					_DR_data[96] = _trunc2byte(PortIn_3.AcyclicData097);
+					_DR_data[97] = _trunc2byte(PortIn_3.AcyclicData098);
+					_DR_data[98] = _trunc2byte(PortIn_3.AcyclicData099);
+					_DR_data[99] = _trunc2byte(PortIn_3.AcyclicData100);
+					_DR_data[100] = _trunc2byte(PortIn_3.AcyclicData101);
+					_DR_data[101] = _trunc2byte(PortIn_3.AcyclicData102);
+					_DR_data[102] = _trunc2byte(PortIn_3.AcyclicData103);
+					_DR_data[103] = _trunc2byte(PortIn_3.AcyclicData104);
+					_DR_data[104] = _trunc2byte(PortIn_3.AcyclicData105);
+					_DR_data[105] = _trunc2byte(PortIn_3.AcyclicData106);
+					_DR_data[106] = _trunc2byte(PortIn_3.AcyclicData107);
+					_DR_data[107] = _trunc2byte(PortIn_3.AcyclicData108);
+					_DR_data[108] = _trunc2byte(PortIn_3.AcyclicData109);
+					_DR_data[109] = _trunc2byte(PortIn_3.AcyclicData110);
+					_DR_data[110] = _trunc2byte(PortIn_3.AcyclicData111);
+					_DR_data[111] = _trunc2byte(PortIn_3.AcyclicData112);
+					_DR_data[112] = _trunc2byte(PortIn_3.AcyclicData113);
+					_DR_data[113] = _trunc2byte(PortIn_3.AcyclicData114);
+					_DR_data[114] = _trunc2byte(PortIn_3.AcyclicData115);
+					_DR_data[115] = _trunc2byte(PortIn_3.AcyclicData116);
+					_DR_data[116] = _trunc2byte(PortIn_3.AcyclicData117);
+					_DR_data[117] = _trunc2byte(PortIn_3.AcyclicData118);
+					_DR_data[118] = _trunc2byte(PortIn_3.AcyclicData119);
+					_DR_data[119] = _trunc2byte(PortIn_3.AcyclicData120);
+					_DR_data[120] = _trunc2byte(PortIn_3.AcyclicData121);
+					_DR_data[121] = _trunc2byte(PortIn_3.AcyclicData122);
+					_DR_data[122] = _trunc2byte(PortIn_3.AcyclicData123);
+					_DR_data[123] = _trunc2byte(PortIn_3.AcyclicData124);
+					_DR_data[124] = _trunc2byte(PortIn_3.AcyclicData125);
+					_DR_data[125] = _trunc2byte(PortIn_3.AcyclicData126);
+					_DR_data[126] = _trunc2byte(PortIn_3.AcyclicData127);
+					_DR_data[127] = _trunc2byte(PortIn_3.AcyclicData128);
+					_DR_data[128] = _trunc2byte(PortIn_3.AcyclicData129);
+					_DR_data[129] = _trunc2byte(PortIn_3.AcyclicData130);
+					_DR_data[130] = _trunc2byte(PortIn_3.AcyclicData131);
+					_DR_data[131] = _trunc2byte(PortIn_3.AcyclicData132);
+					_DR_data[132] = _trunc2byte(PortIn_3.AcyclicData133);
+					_DR_data[133] = _trunc2byte(PortIn_3.AcyclicData134);
+					_DR_data[134] = _trunc2byte(PortIn_3.AcyclicData135);
+					_DR_data[135] = _trunc2byte(PortIn_3.AcyclicData136);
+					_DR_data[136] = _trunc2byte(PortIn_3.AcyclicData137);
+					_DR_data[137] = _trunc2byte(PortIn_3.AcyclicData138);
+					_DR_data[138] = _trunc2byte(PortIn_3.AcyclicData139);
+					_DR_data[139] = _trunc2byte(PortIn_3.AcyclicData140);
+					_DR_data[140] = _trunc2byte(PortIn_3.AcyclicData141);
+					_DR_data[141] = _trunc2byte(PortIn_3.AcyclicData142);
+					_DR_data[142] = _trunc2byte(PortIn_3.AcyclicData143);
+					_DR_data[143] = _trunc2byte(PortIn_3.AcyclicData144);
+					_DR_data[144] = _trunc2byte(PortIn_3.AcyclicData145);
+					_DR_data[145] = _trunc2byte(PortIn_3.AcyclicData146);
+					_DR_data[146] = _trunc2byte(PortIn_3.AcyclicData147);
+					_DR_data[147] = _trunc2byte(PortIn_3.AcyclicData148);
+					_DR_data[148] = _trunc2byte(PortIn_3.AcyclicData149);
+					_DR_data[149] = _trunc2byte(PortIn_3.AcyclicData150);
+					_DR_data[150] = _trunc2byte(PortIn_3.AcyclicData151);
+					_DR_data[151] = _trunc2byte(PortIn_3.AcyclicData152);
+					_DR_data[152] = _trunc2byte(PortIn_3.AcyclicData153);
+					_DR_data[153] = _trunc2byte(PortIn_3.AcyclicData154);
+					_DR_data[154] = _trunc2byte(PortIn_3.AcyclicData155);
+					_DR_data[155] = _trunc2byte(PortIn_3.AcyclicData156);
+					_DR_data[156] = _trunc2byte(PortIn_3.AcyclicData157);
+					_DR_data[157] = _trunc2byte(PortIn_3.AcyclicData158);
+					_DR_data[158] = _trunc2byte(PortIn_3.AcyclicData159);
+					_DR_data[159] = _trunc2byte(PortIn_3.AcyclicData160);
+					_DR_data[160] = _trunc2byte(PortIn_3.AcyclicData161);
+					_DR_data[161] = _trunc2byte(PortIn_3.AcyclicData162);
+					_DR_data[162] = _trunc2byte(PortIn_3.AcyclicData163);
+					_DR_data[163] = _trunc2byte(PortIn_3.AcyclicData164);
+					_DR_data[164] = _trunc2byte(PortIn_3.AcyclicData165);
+					_DR_data[165] = _trunc2byte(PortIn_3.AcyclicData166);
+					_DR_data[166] = _trunc2byte(PortIn_3.AcyclicData167);
+					_DR_data[167] = _trunc2byte(PortIn_3.AcyclicData168);
+					_DR_data[168] = _trunc2byte(PortIn_3.AcyclicData169);
+					_DR_data[169] = _trunc2byte(PortIn_3.AcyclicData170);
+					_DR_data[170] = _trunc2byte(PortIn_3.AcyclicData171);
+					_DR_data[171] = _trunc2byte(PortIn_3.AcyclicData172);
+					_DR_data[172] = _trunc2byte(PortIn_3.AcyclicData173);
+					_DR_data[173] = _trunc2byte(PortIn_3.AcyclicData174);
+					_DR_data[174] = _trunc2byte(PortIn_3.AcyclicData175);
+					_DR_data[175] = _trunc2byte(PortIn_3.AcyclicData176);
+					_DR_data[176] = _trunc2byte(PortIn_3.AcyclicData177);
+					_DR_data[177] = _trunc2byte(PortIn_3.AcyclicData178);
+					_DR_data[178] = _trunc2byte(PortIn_3.AcyclicData179);
+					_DR_data[179] = _trunc2byte(PortIn_3.AcyclicData180);
+					_DR_data[180] = _trunc2byte(PortIn_3.AcyclicData181);
+					_DR_data[181] = _trunc2byte(PortIn_3.AcyclicData182);
+					_DR_data[182] = _trunc2byte(PortIn_3.AcyclicData183);
+					_DR_data[183] = _trunc2byte(PortIn_3.AcyclicData184);
+					_DR_data[184] = _trunc2byte(PortIn_3.AcyclicData185);
+					_DR_data[185] = _trunc2byte(PortIn_3.AcyclicData186);
+					_DR_data[186] = _trunc2byte(PortIn_3.AcyclicData187);
+					_DR_data[187] = _trunc2byte(PortIn_3.AcyclicData188);
+					_DR_data[188] = _trunc2byte(PortIn_3.AcyclicData189);
+					_DR_data[189] = _trunc2byte(PortIn_3.AcyclicData190);
+					_DR_data[190] = _trunc2byte(PortIn_3.AcyclicData191);
+					_DR_data[191] = _trunc2byte(PortIn_3.AcyclicData192);
+					_DR_data[192] = _trunc2byte(PortIn_3.AcyclicData193);
+					_DR_data[193] = _trunc2byte(PortIn_3.AcyclicData194);
+					_DR_data[194] = _trunc2byte(PortIn_3.AcyclicData195);
+					_DR_data[195] = _trunc2byte(PortIn_3.AcyclicData196);
+					_DR_data[196] = _trunc2byte(PortIn_3.AcyclicData197);
+					_DR_data[197] = _trunc2byte(PortIn_3.AcyclicData198);
+					_DR_data[198] = _trunc2byte(PortIn_3.AcyclicData199);
+					_DR_data[199] = _trunc2byte(PortIn_3.AcyclicData200);
+					_DR_data[200] = _trunc2byte(PortIn_3.AcyclicData201);
+					_DR_data[201] = _trunc2byte(PortIn_3.AcyclicData202);
+					_DR_data[202] = _trunc2byte(PortIn_3.AcyclicData203);
+					_DR_data[203] = _trunc2byte(PortIn_3.AcyclicData204);
+					_DR_data[204] = _trunc2byte(PortIn_3.AcyclicData205);
+					_DR_data[205] = _trunc2byte(PortIn_3.AcyclicData206);
+					_DR_data[206] = _trunc2byte(PortIn_3.AcyclicData207);
+					_DR_data[207] = _trunc2byte(PortIn_3.AcyclicData208);
+					_DR_data[208] = _trunc2byte(PortIn_3.AcyclicData209);
+					_DR_data[209] = _trunc2byte(PortIn_3.AcyclicData210);
+					_DR_data[210] = _trunc2byte(PortIn_3.AcyclicData211);
+					_DR_data[211] = _trunc2byte(PortIn_3.AcyclicData212);
+					_DR_data[212] = _trunc2byte(PortIn_3.AcyclicData213);
+					_DR_data[213] = _trunc2byte(PortIn_3.AcyclicData214);
+					_DR_data[214] = _trunc2byte(PortIn_3.AcyclicData215);
+					_DR_data[215] = _trunc2byte(PortIn_3.AcyclicData216);
+					_DR_data[216] = _trunc2byte(PortIn_3.AcyclicData217);
+					_DR_data[217] = _trunc2byte(PortIn_3.AcyclicData218);
+					_DR_data[218] = _trunc2byte(PortIn_3.AcyclicData219);
+					_DR_data[219] = _trunc2byte(PortIn_3.AcyclicData220);
+					_DR_data[220] = _trunc2byte(PortIn_3.AcyclicData221);
+					_DR_data[221] = _trunc2byte(PortIn_3.AcyclicData222);
+					_DR_data[222] = _trunc2byte(PortIn_3.AcyclicData223);
+					_DR_data[223] = _trunc2byte(PortIn_3.AcyclicData224);
+					_DR_data[224] = _trunc2byte(PortIn_3.AcyclicData225);
+					_DR_data[225] = _trunc2byte(PortIn_3.AcyclicData226);
+					_DR_data[226] = _trunc2byte(PortIn_3.AcyclicData227);
+					_DR_data[227] = _trunc2byte(PortIn_3.AcyclicData228);
+					_DR_data[228] = _trunc2byte(PortIn_3.AcyclicData229);
+					_DR_data[229] = _trunc2byte(PortIn_3.AcyclicData230);
+					_DR_data[230] = _trunc2byte(PortIn_3.AcyclicData231);
+					_DR_data[231] = _trunc2byte(PortIn_3.AcyclicData232);
+					_DR_data[232] = _trunc2byte(PortIn_3.AcyclicData233);
+					_DR_data[233] = _trunc2byte(PortIn_3.AcyclicData234);
+					_DR_data[234] = _trunc2byte(PortIn_3.AcyclicData235);
+					_DR_data[235] = _trunc2byte(PortIn_3.AcyclicData236);
+					_DR_data[236] = _trunc2byte(PortIn_3.AcyclicData237);
+					_DR_data[237] = _trunc2byte(PortIn_3.AcyclicData238);
+					_DR_data[238] = _trunc2byte(PortIn_3.AcyclicData239);
+					_DR_data[239] = _trunc2byte(PortIn_3.AcyclicData240);
+				break;
+				case 4: //Port 4
+					_DR_data[0] = _trunc2byte(PortIn_4.AcyclicData001);
+					_DR_data[1] = _trunc2byte(PortIn_4.AcyclicData002);
+					_DR_data[2] = _trunc2byte(PortIn_4.AcyclicData003);
+					_DR_data[3] = _trunc2byte(PortIn_4.AcyclicData004);
+					_DR_data[4] = _trunc2byte(PortIn_4.AcyclicData005);
+					_DR_data[5] = _trunc2byte(PortIn_4.AcyclicData006);
+					_DR_data[6] = _trunc2byte(PortIn_4.AcyclicData007);
+					_DR_data[7] = _trunc2byte(PortIn_4.AcyclicData008);
+					_DR_data[8] = _trunc2byte(PortIn_4.AcyclicData009);
+					_DR_data[9] = _trunc2byte(PortIn_4.AcyclicData010);
+					_DR_data[10] = _trunc2byte(PortIn_4.AcyclicData011);
+					_DR_data[11] = _trunc2byte(PortIn_4.AcyclicData012);
+					_DR_data[12] = _trunc2byte(PortIn_4.AcyclicData013);
+					_DR_data[13] = _trunc2byte(PortIn_4.AcyclicData014);
+					_DR_data[14] = _trunc2byte(PortIn_4.AcyclicData015);
+					_DR_data[15] = _trunc2byte(PortIn_4.AcyclicData016);
+					_DR_data[16] = _trunc2byte(PortIn_4.AcyclicData017);
+					_DR_data[17] = _trunc2byte(PortIn_4.AcyclicData018);
+					_DR_data[18] = _trunc2byte(PortIn_4.AcyclicData019);
+					_DR_data[19] = _trunc2byte(PortIn_4.AcyclicData020);
+					_DR_data[20] = _trunc2byte(PortIn_4.AcyclicData021);
+					_DR_data[21] = _trunc2byte(PortIn_4.AcyclicData022);
+					_DR_data[22] = _trunc2byte(PortIn_4.AcyclicData023);
+					_DR_data[23] = _trunc2byte(PortIn_4.AcyclicData024);
+					_DR_data[24] = _trunc2byte(PortIn_4.AcyclicData025);
+					_DR_data[25] = _trunc2byte(PortIn_4.AcyclicData026);
+					_DR_data[26] = _trunc2byte(PortIn_4.AcyclicData027);
+					_DR_data[27] = _trunc2byte(PortIn_4.AcyclicData028);
+					_DR_data[28] = _trunc2byte(PortIn_4.AcyclicData029);
+					_DR_data[29] = _trunc2byte(PortIn_4.AcyclicData030);
+					_DR_data[30] = _trunc2byte(PortIn_4.AcyclicData031);
+					_DR_data[31] = _trunc2byte(PortIn_4.AcyclicData032);
+					_DR_data[32] = _trunc2byte(PortIn_4.AcyclicData033);
+					_DR_data[33] = _trunc2byte(PortIn_4.AcyclicData034);
+					_DR_data[34] = _trunc2byte(PortIn_4.AcyclicData035);
+					_DR_data[35] = _trunc2byte(PortIn_4.AcyclicData036);
+					_DR_data[36] = _trunc2byte(PortIn_4.AcyclicData037);
+					_DR_data[37] = _trunc2byte(PortIn_4.AcyclicData038);
+					_DR_data[38] = _trunc2byte(PortIn_4.AcyclicData039);
+					_DR_data[39] = _trunc2byte(PortIn_4.AcyclicData040);
+					_DR_data[40] = _trunc2byte(PortIn_4.AcyclicData041);
+					_DR_data[41] = _trunc2byte(PortIn_4.AcyclicData042);
+					_DR_data[42] = _trunc2byte(PortIn_4.AcyclicData043);
+					_DR_data[43] = _trunc2byte(PortIn_4.AcyclicData044);
+					_DR_data[44] = _trunc2byte(PortIn_4.AcyclicData045);
+					_DR_data[45] = _trunc2byte(PortIn_4.AcyclicData046);
+					_DR_data[46] = _trunc2byte(PortIn_4.AcyclicData047);
+					_DR_data[47] = _trunc2byte(PortIn_4.AcyclicData048);
+					_DR_data[48] = _trunc2byte(PortIn_4.AcyclicData049);
+					_DR_data[49] = _trunc2byte(PortIn_4.AcyclicData050);
+					_DR_data[50] = _trunc2byte(PortIn_4.AcyclicData051);
+					_DR_data[51] = _trunc2byte(PortIn_4.AcyclicData052);
+					_DR_data[52] = _trunc2byte(PortIn_4.AcyclicData053);
+					_DR_data[53] = _trunc2byte(PortIn_4.AcyclicData054);
+					_DR_data[54] = _trunc2byte(PortIn_4.AcyclicData055);
+					_DR_data[55] = _trunc2byte(PortIn_4.AcyclicData056);
+					_DR_data[56] = _trunc2byte(PortIn_4.AcyclicData057);
+					_DR_data[57] = _trunc2byte(PortIn_4.AcyclicData058);
+					_DR_data[58] = _trunc2byte(PortIn_4.AcyclicData059);
+					_DR_data[59] = _trunc2byte(PortIn_4.AcyclicData060);
+					_DR_data[60] = _trunc2byte(PortIn_4.AcyclicData061);
+					_DR_data[61] = _trunc2byte(PortIn_4.AcyclicData062);
+					_DR_data[62] = _trunc2byte(PortIn_4.AcyclicData063);
+					_DR_data[63] = _trunc2byte(PortIn_4.AcyclicData064);
+					_DR_data[64] = _trunc2byte(PortIn_4.AcyclicData065);
+					_DR_data[65] = _trunc2byte(PortIn_4.AcyclicData066);
+					_DR_data[66] = _trunc2byte(PortIn_4.AcyclicData067);
+					_DR_data[67] = _trunc2byte(PortIn_4.AcyclicData068);
+					_DR_data[68] = _trunc2byte(PortIn_4.AcyclicData069);
+					_DR_data[69] = _trunc2byte(PortIn_4.AcyclicData070);
+					_DR_data[70] = _trunc2byte(PortIn_4.AcyclicData071);
+					_DR_data[71] = _trunc2byte(PortIn_4.AcyclicData072);
+					_DR_data[72] = _trunc2byte(PortIn_4.AcyclicData073);
+					_DR_data[73] = _trunc2byte(PortIn_4.AcyclicData074);
+					_DR_data[74] = _trunc2byte(PortIn_4.AcyclicData075);
+					_DR_data[75] = _trunc2byte(PortIn_4.AcyclicData076);
+					_DR_data[76] = _trunc2byte(PortIn_4.AcyclicData077);
+					_DR_data[77] = _trunc2byte(PortIn_4.AcyclicData078);
+					_DR_data[78] = _trunc2byte(PortIn_4.AcyclicData079);
+					_DR_data[79] = _trunc2byte(PortIn_4.AcyclicData080);
+					_DR_data[80] = _trunc2byte(PortIn_4.AcyclicData081);
+					_DR_data[81] = _trunc2byte(PortIn_4.AcyclicData082);
+					_DR_data[82] = _trunc2byte(PortIn_4.AcyclicData083);
+					_DR_data[83] = _trunc2byte(PortIn_4.AcyclicData084);
+					_DR_data[84] = _trunc2byte(PortIn_4.AcyclicData085);
+					_DR_data[85] = _trunc2byte(PortIn_4.AcyclicData086);
+					_DR_data[86] = _trunc2byte(PortIn_4.AcyclicData087);
+					_DR_data[87] = _trunc2byte(PortIn_4.AcyclicData088);
+					_DR_data[88] = _trunc2byte(PortIn_4.AcyclicData089);
+					_DR_data[89] = _trunc2byte(PortIn_4.AcyclicData090);
+					_DR_data[90] = _trunc2byte(PortIn_4.AcyclicData091);
+					_DR_data[91] = _trunc2byte(PortIn_4.AcyclicData092);
+					_DR_data[92] = _trunc2byte(PortIn_4.AcyclicData093);
+					_DR_data[93] = _trunc2byte(PortIn_4.AcyclicData094);
+					_DR_data[94] = _trunc2byte(PortIn_4.AcyclicData095);
+					_DR_data[95] = _trunc2byte(PortIn_4.AcyclicData096);
+					_DR_data[96] = _trunc2byte(PortIn_4.AcyclicData097);
+					_DR_data[97] = _trunc2byte(PortIn_4.AcyclicData098);
+					_DR_data[98] = _trunc2byte(PortIn_4.AcyclicData099);
+					_DR_data[99] = _trunc2byte(PortIn_4.AcyclicData100);
+					_DR_data[100] = _trunc2byte(PortIn_4.AcyclicData101);
+					_DR_data[101] = _trunc2byte(PortIn_4.AcyclicData102);
+					_DR_data[102] = _trunc2byte(PortIn_4.AcyclicData103);
+					_DR_data[103] = _trunc2byte(PortIn_4.AcyclicData104);
+					_DR_data[104] = _trunc2byte(PortIn_4.AcyclicData105);
+					_DR_data[105] = _trunc2byte(PortIn_4.AcyclicData106);
+					_DR_data[106] = _trunc2byte(PortIn_4.AcyclicData107);
+					_DR_data[107] = _trunc2byte(PortIn_4.AcyclicData108);
+					_DR_data[108] = _trunc2byte(PortIn_4.AcyclicData109);
+					_DR_data[109] = _trunc2byte(PortIn_4.AcyclicData110);
+					_DR_data[110] = _trunc2byte(PortIn_4.AcyclicData111);
+					_DR_data[111] = _trunc2byte(PortIn_4.AcyclicData112);
+					_DR_data[112] = _trunc2byte(PortIn_4.AcyclicData113);
+					_DR_data[113] = _trunc2byte(PortIn_4.AcyclicData114);
+					_DR_data[114] = _trunc2byte(PortIn_4.AcyclicData115);
+					_DR_data[115] = _trunc2byte(PortIn_4.AcyclicData116);
+					_DR_data[116] = _trunc2byte(PortIn_4.AcyclicData117);
+					_DR_data[117] = _trunc2byte(PortIn_4.AcyclicData118);
+					_DR_data[118] = _trunc2byte(PortIn_4.AcyclicData119);
+					_DR_data[119] = _trunc2byte(PortIn_4.AcyclicData120);
+					_DR_data[120] = _trunc2byte(PortIn_4.AcyclicData121);
+					_DR_data[121] = _trunc2byte(PortIn_4.AcyclicData122);
+					_DR_data[122] = _trunc2byte(PortIn_4.AcyclicData123);
+					_DR_data[123] = _trunc2byte(PortIn_4.AcyclicData124);
+					_DR_data[124] = _trunc2byte(PortIn_4.AcyclicData125);
+					_DR_data[125] = _trunc2byte(PortIn_4.AcyclicData126);
+					_DR_data[126] = _trunc2byte(PortIn_4.AcyclicData127);
+					_DR_data[127] = _trunc2byte(PortIn_4.AcyclicData128);
+					_DR_data[128] = _trunc2byte(PortIn_4.AcyclicData129);
+					_DR_data[129] = _trunc2byte(PortIn_4.AcyclicData130);
+					_DR_data[130] = _trunc2byte(PortIn_4.AcyclicData131);
+					_DR_data[131] = _trunc2byte(PortIn_4.AcyclicData132);
+					_DR_data[132] = _trunc2byte(PortIn_4.AcyclicData133);
+					_DR_data[133] = _trunc2byte(PortIn_4.AcyclicData134);
+					_DR_data[134] = _trunc2byte(PortIn_4.AcyclicData135);
+					_DR_data[135] = _trunc2byte(PortIn_4.AcyclicData136);
+					_DR_data[136] = _trunc2byte(PortIn_4.AcyclicData137);
+					_DR_data[137] = _trunc2byte(PortIn_4.AcyclicData138);
+					_DR_data[138] = _trunc2byte(PortIn_4.AcyclicData139);
+					_DR_data[139] = _trunc2byte(PortIn_4.AcyclicData140);
+					_DR_data[140] = _trunc2byte(PortIn_4.AcyclicData141);
+					_DR_data[141] = _trunc2byte(PortIn_4.AcyclicData142);
+					_DR_data[142] = _trunc2byte(PortIn_4.AcyclicData143);
+					_DR_data[143] = _trunc2byte(PortIn_4.AcyclicData144);
+					_DR_data[144] = _trunc2byte(PortIn_4.AcyclicData145);
+					_DR_data[145] = _trunc2byte(PortIn_4.AcyclicData146);
+					_DR_data[146] = _trunc2byte(PortIn_4.AcyclicData147);
+					_DR_data[147] = _trunc2byte(PortIn_4.AcyclicData148);
+					_DR_data[148] = _trunc2byte(PortIn_4.AcyclicData149);
+					_DR_data[149] = _trunc2byte(PortIn_4.AcyclicData150);
+					_DR_data[150] = _trunc2byte(PortIn_4.AcyclicData151);
+					_DR_data[151] = _trunc2byte(PortIn_4.AcyclicData152);
+					_DR_data[152] = _trunc2byte(PortIn_4.AcyclicData153);
+					_DR_data[153] = _trunc2byte(PortIn_4.AcyclicData154);
+					_DR_data[154] = _trunc2byte(PortIn_4.AcyclicData155);
+					_DR_data[155] = _trunc2byte(PortIn_4.AcyclicData156);
+					_DR_data[156] = _trunc2byte(PortIn_4.AcyclicData157);
+					_DR_data[157] = _trunc2byte(PortIn_4.AcyclicData158);
+					_DR_data[158] = _trunc2byte(PortIn_4.AcyclicData159);
+					_DR_data[159] = _trunc2byte(PortIn_4.AcyclicData160);
+					_DR_data[160] = _trunc2byte(PortIn_4.AcyclicData161);
+					_DR_data[161] = _trunc2byte(PortIn_4.AcyclicData162);
+					_DR_data[162] = _trunc2byte(PortIn_4.AcyclicData163);
+					_DR_data[163] = _trunc2byte(PortIn_4.AcyclicData164);
+					_DR_data[164] = _trunc2byte(PortIn_4.AcyclicData165);
+					_DR_data[165] = _trunc2byte(PortIn_4.AcyclicData166);
+					_DR_data[166] = _trunc2byte(PortIn_4.AcyclicData167);
+					_DR_data[167] = _trunc2byte(PortIn_4.AcyclicData168);
+					_DR_data[168] = _trunc2byte(PortIn_4.AcyclicData169);
+					_DR_data[169] = _trunc2byte(PortIn_4.AcyclicData170);
+					_DR_data[170] = _trunc2byte(PortIn_4.AcyclicData171);
+					_DR_data[171] = _trunc2byte(PortIn_4.AcyclicData172);
+					_DR_data[172] = _trunc2byte(PortIn_4.AcyclicData173);
+					_DR_data[173] = _trunc2byte(PortIn_4.AcyclicData174);
+					_DR_data[174] = _trunc2byte(PortIn_4.AcyclicData175);
+					_DR_data[175] = _trunc2byte(PortIn_4.AcyclicData176);
+					_DR_data[176] = _trunc2byte(PortIn_4.AcyclicData177);
+					_DR_data[177] = _trunc2byte(PortIn_4.AcyclicData178);
+					_DR_data[178] = _trunc2byte(PortIn_4.AcyclicData179);
+					_DR_data[179] = _trunc2byte(PortIn_4.AcyclicData180);
+					_DR_data[180] = _trunc2byte(PortIn_4.AcyclicData181);
+					_DR_data[181] = _trunc2byte(PortIn_4.AcyclicData182);
+					_DR_data[182] = _trunc2byte(PortIn_4.AcyclicData183);
+					_DR_data[183] = _trunc2byte(PortIn_4.AcyclicData184);
+					_DR_data[184] = _trunc2byte(PortIn_4.AcyclicData185);
+					_DR_data[185] = _trunc2byte(PortIn_4.AcyclicData186);
+					_DR_data[186] = _trunc2byte(PortIn_4.AcyclicData187);
+					_DR_data[187] = _trunc2byte(PortIn_4.AcyclicData188);
+					_DR_data[188] = _trunc2byte(PortIn_4.AcyclicData189);
+					_DR_data[189] = _trunc2byte(PortIn_4.AcyclicData190);
+					_DR_data[190] = _trunc2byte(PortIn_4.AcyclicData191);
+					_DR_data[191] = _trunc2byte(PortIn_4.AcyclicData192);
+					_DR_data[192] = _trunc2byte(PortIn_4.AcyclicData193);
+					_DR_data[193] = _trunc2byte(PortIn_4.AcyclicData194);
+					_DR_data[194] = _trunc2byte(PortIn_4.AcyclicData195);
+					_DR_data[195] = _trunc2byte(PortIn_4.AcyclicData196);
+					_DR_data[196] = _trunc2byte(PortIn_4.AcyclicData197);
+					_DR_data[197] = _trunc2byte(PortIn_4.AcyclicData198);
+					_DR_data[198] = _trunc2byte(PortIn_4.AcyclicData199);
+					_DR_data[199] = _trunc2byte(PortIn_4.AcyclicData200);
+					_DR_data[200] = _trunc2byte(PortIn_4.AcyclicData201);
+					_DR_data[201] = _trunc2byte(PortIn_4.AcyclicData202);
+					_DR_data[202] = _trunc2byte(PortIn_4.AcyclicData203);
+					_DR_data[203] = _trunc2byte(PortIn_4.AcyclicData204);
+					_DR_data[204] = _trunc2byte(PortIn_4.AcyclicData205);
+					_DR_data[205] = _trunc2byte(PortIn_4.AcyclicData206);
+					_DR_data[206] = _trunc2byte(PortIn_4.AcyclicData207);
+					_DR_data[207] = _trunc2byte(PortIn_4.AcyclicData208);
+					_DR_data[208] = _trunc2byte(PortIn_4.AcyclicData209);
+					_DR_data[209] = _trunc2byte(PortIn_4.AcyclicData210);
+					_DR_data[210] = _trunc2byte(PortIn_4.AcyclicData211);
+					_DR_data[211] = _trunc2byte(PortIn_4.AcyclicData212);
+					_DR_data[212] = _trunc2byte(PortIn_4.AcyclicData213);
+					_DR_data[213] = _trunc2byte(PortIn_4.AcyclicData214);
+					_DR_data[214] = _trunc2byte(PortIn_4.AcyclicData215);
+					_DR_data[215] = _trunc2byte(PortIn_4.AcyclicData216);
+					_DR_data[216] = _trunc2byte(PortIn_4.AcyclicData217);
+					_DR_data[217] = _trunc2byte(PortIn_4.AcyclicData218);
+					_DR_data[218] = _trunc2byte(PortIn_4.AcyclicData219);
+					_DR_data[219] = _trunc2byte(PortIn_4.AcyclicData220);
+					_DR_data[220] = _trunc2byte(PortIn_4.AcyclicData221);
+					_DR_data[221] = _trunc2byte(PortIn_4.AcyclicData222);
+					_DR_data[222] = _trunc2byte(PortIn_4.AcyclicData223);
+					_DR_data[223] = _trunc2byte(PortIn_4.AcyclicData224);
+					_DR_data[224] = _trunc2byte(PortIn_4.AcyclicData225);
+					_DR_data[225] = _trunc2byte(PortIn_4.AcyclicData226);
+					_DR_data[226] = _trunc2byte(PortIn_4.AcyclicData227);
+					_DR_data[227] = _trunc2byte(PortIn_4.AcyclicData228);
+					_DR_data[228] = _trunc2byte(PortIn_4.AcyclicData229);
+					_DR_data[229] = _trunc2byte(PortIn_4.AcyclicData230);
+					_DR_data[230] = _trunc2byte(PortIn_4.AcyclicData231);
+					_DR_data[231] = _trunc2byte(PortIn_4.AcyclicData232);
+					_DR_data[232] = _trunc2byte(PortIn_4.AcyclicData233);
+					_DR_data[233] = _trunc2byte(PortIn_4.AcyclicData234);
+					_DR_data[234] = _trunc2byte(PortIn_4.AcyclicData235);
+					_DR_data[235] = _trunc2byte(PortIn_4.AcyclicData236);
+					_DR_data[236] = _trunc2byte(PortIn_4.AcyclicData237);
+					_DR_data[237] = _trunc2byte(PortIn_4.AcyclicData238);
+					_DR_data[238] = _trunc2byte(PortIn_4.AcyclicData239);
+					_DR_data[239] = _trunc2byte(PortIn_4.AcyclicData240);
+				break;
+				default:
+				   // _DR_result = 0x80B0;
+				return;
+			}
+		}//_DR_data[1]!=0 end
+
+		for (i = 0; i < 8; i++)//0-7 acyclic data: copy header data
+		{                               
+			_DR_data[i] = TempParameters227[i];
+		}//end write header
+
+		_DR_result = _DR_length;
+		Result = _DR_length; 	 
+	}
+	//Device DataSet227 RDREC end
+END_HANDLER
+
+// DataSet is 227: End
+//=================================================================================

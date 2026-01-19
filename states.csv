@@ -1,0 +1,5 @@
+Name,State type,Data type,Number,Comments
+analog_state,Time-discrete,analog,1,Test comments
+binary_state,Time-discrete,binary,1,
+integer_state,Time-discrete,integer,1,
+,,,,

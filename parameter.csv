@@ -1,0 +1,5 @@
+Name,Data type,Number,Default,Comments
+analog_param,analog,1,,Test comments
+binary_param,binary,1,,
+integer_param,integer,1,,
+,,,,

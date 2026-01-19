@@ -1,0 +1,244 @@
+/*FUNCTION VendorID_Change2Byte (byte Vendor_ID_Byte1, byte Vendor_ID_Byte2) : (integer Vendor_ID)
+
+	integer tempValue;
+	integer V_Byte1;
+	integer V_Byte2;
+
+	if (Vendor_ID < 0) tempValue = 0;
+	else if (Vendor_ID  > 65535) tempValue = 65535;
+	else tempValue = Vendor_ID ;
+
+	V_Byte1 = (tempValue>>8) & 0x00ff;    // MSB
+	V_Byte2 =  tempValue     & 0x00ff;    // LSB
+
+	Vendor_ID_Byte1 = _trunc2byte(V_Byte1);
+	Vendor_ID_Byte2 = _trunc2byte(V_Byte2);
+
+END_FUNCTION
+
+
+FUNCTION ProductID_Change2Byte (byte DeviceID_Bit1, byte DeviceID_Bit2, byte DeviceID_Bit3, byte DeviceID_Bit4) : (integer Device_ID)
+
+	integer tempValue;
+	integer D_Byte1;
+	integer D_Byte2;
+	integer D_Byte3;
+	integer D_Byte4;
+
+	if (Device_ID < 0) tempValue = 0;
+	else if (Device_ID > 4294967295) tempValue = 4294967295;
+	else tempValue = Device_ID; 
+							
+	D_Byte1 = (tempValue>>24) & 0x00ff;    // MSB
+	D_Byte2 = (tempValue>>16) & 0x00ff;      
+	D_Byte3 = (tempValue>>8)  & 0x00ff;      
+	D_Byte4 = tempValue       & 0x00ff;    // LSB
+
+	DeviceID_Bit1 = _trunc2byte(D_Byte1);
+	DeviceID_Bit2 = _trunc2byte(D_Byte2);
+	DeviceID_Bit3 = _trunc2byte(D_Byte3);
+	DeviceID_Bit4 = _trunc2byte(D_Byte4);
+
+END_FUNCTION*/
+
+FUNCTION FAIL_GENERATOR (byte FAIL) : (binary StartFailure, byte Unit_Gateway, byte Specifier) 
+
+	//Status Event - Profinet Status Event (Doku PLCsim Advanced Seite 261) 
+
+	//Siemens.Simatic.Simulation.Runtime.SimulationRuntimeException
+
+	ushort in_HardwareIdentifier;
+	ushort in_Specifier;
+
+	in_HardwareIdentifier = Unit_Gateway; 
+	in_Specifier= Specifier;
+
+END_FUNCTION
+
+FUNCTION Bit2Byte (byte PQI) : (binary PQI0, binary PQI1, binary PQI2, binary PQI3, binary PQI4, binary PQI5, binary PQI6, binary PQI7) 
+
+	byte x = 0;
+
+	if(PQI0) x += 1;
+	if(PQI1) x += 2;
+	if(PQI2) x += 4;
+	if(PQI3) x += 8;
+	if(PQI4) x += 16;
+	if(PQI5) x += 32;
+	if(PQI6) x += 64;
+	if(PQI7) x += 128;
+
+	PQI = x;
+
+END_FUNCTION
+
+
+FUNCTION Byte2DWord (integer Processdata_Out) : (byte Processdata_in1, byte Processdata_in2, byte Processdata_in3, byte Processdata_in4)
+
+	integer X0 = 0, X1, X2, X3;
+
+	if ((Processdata_in1 < 0)||(Processdata_in1 > 255) ||
+		(Processdata_in2 < 0)||(Processdata_in2 > 255) ||
+		(Processdata_in3 < 0)||(Processdata_in3 > 255) ||
+		(Processdata_in4 < 0)||(Processdata_in4 > 255))
+
+
+	if (Processdata_in1 < 0) X0 = 0;
+		else if (Processdata_in1 > 255) X0 = 255;
+			else X0 = Processdata_in1;
+
+	if (Processdata_in2 < 0) X1 = 0;
+		else if (Processdata_in2 > 255) X1 = 255;
+			else X1 = Processdata_in2;
+
+	if (Processdata_in3 < 0) X2 = 0;
+		else if (Processdata_in3 > 255) X2 = 255;
+			else X2 = Processdata_in3;
+
+	if (Processdata_in4 < 0) X3 = 0;
+		else if (Processdata_in4 > 255) X3 = 255;
+			else X3 = Processdata_in4;
+
+	Processdata_Out = (((X3<<24)&0xff000000L) |
+		  ((X2<<16)&0xff0000L) | 
+		  ((X1<<8)&0xff00L) |
+		   (X0&0x00ffL));
+		   
+END_FUNCTION
+
+FUNCTION int2byte (byte Vendor_ID_Byte1, byte Vendor_ID_Byte2) : (integer Vendor_ID)
+
+	integer wandel;
+	integer V_Byte1;
+	integer V_Byte2;
+
+	if (Vendor_ID < 0) wandel = 0;
+		else if (Vendor_ID  > 65535) wandel = 65535;
+			else wandel = Vendor_ID ;
+
+	V_Byte1 = (wandel>>8) & 0x00ff;    // MSB
+	V_Byte2 =  wandel     & 0x00ff;    // LSB
+
+	Vendor_ID_Byte1 = _trunc2byte(V_Byte1);
+	Vendor_ID_Byte2 = _trunc2byte(V_Byte2);
+
+END_FUNCTION
+
+FUNCTION DWord2Byte (byte return_Byte3, byte return_Byte2, byte return_Byte1, byte return_Byte0) : (integer input_DWord)
+
+	integer tempValue;
+	integer D_Byte0;
+	integer D_Byte1;
+	integer D_Byte2;
+	integer D_Byte3;
+
+	if (input_DWord < 0) tempValue = 0;
+		else if (input_DWord > 4294967295) tempValue = 4294967295;
+			else tempValue = input_DWord; 
+							
+	D_Byte3 = (tempValue>>24) & 0x00ff;    // MSB
+	D_Byte2 = (tempValue>>16) & 0x00ff;      
+	D_Byte1 = (tempValue>>8)  & 0x00ff;      
+	D_Byte0 = tempValue       & 0x00ff;    // LSB
+
+	return_Byte3 = _trunc2byte(D_Byte3);
+	return_Byte2 = _trunc2byte(D_Byte2);
+	return_Byte1 = _trunc2byte(D_Byte1);
+	return_Byte0 = _trunc2byte(D_Byte0);
+
+END_FUNCTION
+
+FUNCTION byte2word(integer W):(byte B1,byte B0)
+
+	integer X0, X1;
+	/*
+	if ((B0 < 0) || (B0 > 255) || (B1 < 0) || (B1 > 255))
+	{
+		if (!zInputFault)
+			_message("ERROR", "Byte2Word: input not a valid byte value", TRUE);
+		@zInputFault = TRUE;
+	}  
+	else
+	{
+		if (zInputFault)
+			_message("ERROR", "Byte2Word: input not a valid byte value", FALSE);
+		@zInputFault = FALSE;
+	}
+	*/
+	if (B0 < 0) X0 = 0;
+		else if (B0 > 255) X0 = 255;
+			else X0 = B0;
+
+	if (B1 < 0) X1 = 0;
+		else if (B1 > 255) X1 = 255;
+			else X1 = B1;
+
+	W = (((X1<<8)&0xff00) | (X0&0x00ff));
+
+END_FUNCTION
+
+FUNCTION byte2real(analog R):(integer B3, integer B2, integer B1, integer B0)
+
+	// ---------------------------------------------------------------------------
+	// Copyright (c) Siemens AG 2006. All rights reserved.
+	// Industrial Solutions and Services, I&S IS E&C
+	// ---------------------------------------------------------------------------
+	//  DBD0
+	//  DBB  0    1    2    3
+	//  DW: B3 - B2 - B1 - B0
+
+	integer X0, X1, X2, X3;
+	
+	if (B0 < 0) X0 = 0;
+		else if (B0 > 255) X0 = 255;
+			else X0 = B0;
+
+	if (B1 < 0) X1 = 0;
+		else if (B1 > 255) X1 = 255;
+			else X1 = B1;
+
+	if (B2 < 0) X2 = 0;
+		else if (B2 > 255) X2 = 255;
+			else X2 = B2;
+
+	if (B3 < 0) X3 = 0;
+		else if (B3 > 255) X3 = 255;
+			else X3 = B3;
+
+	analog fsign, mantf, mant, expf;
+	integer exp;
+	integer input;
+
+	//X3 ist höchstwertiges Byte (DBB0)
+	//X0 ist niederwertigstes Byte (DBB3)
+	input = (((X3<<24)&0xff000000L) |
+			 ((X2<<16)&0xff0000L) | 
+			 ((X1<<8)&0xff00L) |
+			  (X0&0x00ffL));
+
+	if (((input & 0x80000000L) >> 31) != 0)
+	{
+		fsign = -1;
+	}
+	else
+	{
+		fsign = 1;
+	}
+
+	exp = _trunc2byte(((input & 0x7F800000L) >> 23));
+	exp = exp - 127;
+	expf = _pow(2,exp);
+
+	mant = (input & 0x007FFFFFL);
+	mantf = mant/_pow(2,23) + 1;
+
+	if(exp == -127 && mant == 0)
+	{
+		R = 0.0;
+	}
+	else
+	{
+		R = fsign * mantf * expf;
+	}
+
+END_FUNCTION
