@@ -4,5 +4,5 @@ binary_in,binary,IN,1,,
 integer_in,integer,IN,1,,
 analog_out,analog,OUT,1,,
 binary_out,binary,OUT,1,,
-integer_out,integer,OUT,1,,
 Unit,UnitConnection,IN,1,,Needs to connect only to Data Record Handlers
+integer_out,integer,OUT,1,,Test integer output
